@@ -1,0 +1,21 @@
+{
+  "extends": "./.nuxt/tsconfig.json",
+  "compilerOptions": {
+    "target": "ES2020",
+    "module": "ESNext",
+    "moduleResolution": "Bundler",
+    "lib": ["ESNext", "DOM"],
+    "strict": true,
+    "resolveJsonModule": true,
+    "esModuleInterop": true,
+    "skipLibCheck": true,
+    "types": ["node", "@types/google.maps"]
+  },
+  "exclude": ["node_modules"],
+  "include": [
+    "./**/*.ts",
+    "./**/*.vue",
+    "./**/*.json"
+  ]
+}
+  

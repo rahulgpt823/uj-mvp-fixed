@@ -1,0 +1,5 @@
+<svg width="200" height="200" viewBox="0 0 200 200" xmlns="http://www.w3.org/2000/svg">
+  <polygon points="100,20 180,70 180,130 100,180 20,130 20,70" fill="#FFD700" stroke="#000" stroke-width="2"/>
+  <text x="100" y="90" text-anchor="middle" font-size="32" font-weight="bold" fill="#000">GJC</text>
+  <text x="100" y="120" text-anchor="middle" font-size="20" fill="#000">CERTIFIED</text>
+</svg> 

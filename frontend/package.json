@@ -1,0 +1,25 @@
+{
+  "name": "urvashi-jewellers-frontend",
+  "private": true,
+  "version": "1.0.0",
+  "scripts": {
+    "build": "nuxt build",
+    "dev": "nuxt dev",
+    "generate": "nuxt generate",
+    "preview": "nuxt preview"
+  },
+  "dependencies": {
+    "@nuxtjs/i18n": "^9.5.3",
+    "nuxt": "^3.10.1",
+    "vue": "^3.4.15",
+    "vue-router": "^4.2.5"
+  },
+  "devDependencies": {
+    "@types/google.maps": "^3.58.1",
+    "@types/node": "^20.17.31",
+    "sass": "^1.66.1",
+    "sass-loader": "^13.3.2",
+    "typescript": "^5.8.3",
+    "vue-tsc": "^2.2.10"
+  }
+}
