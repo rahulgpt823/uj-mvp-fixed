@@ -1,9 +1,9 @@
 {
-  "_hash": "EhnXoTH7KtGNObxn8EFpBMVPIZY-X01_GjGTSmrTH9Y",
+  "_hash": "IvX47KFaIC2M8yE79PNAUoxY-kIgLU6c07FpytoFLCc",
   "project": {
     "rootDir": "C:/repos/uj-mvp/frontend"
   },
   "versions": {
-    "nuxt": "3.16.2"
+    "nuxt": "3.17.4"
   }
 }

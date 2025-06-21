@@ -195,9 +195,8 @@
     <BrandCertifications />
   </div>
 </template>
-
 <script setup lang="ts">
-import { ref, watch, onMounted } from '#imports';
+import { ref, watch, onMounted } from 'vue';
 import { useTranslation } from '~/composables/useTranslation';
 
 const { currentLanguage, translate } = useTranslation();

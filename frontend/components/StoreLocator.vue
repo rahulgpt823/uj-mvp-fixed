@@ -68,16 +68,29 @@
 </template>
 
 <script setup lang="ts">
-import { ref, computed } from 'vue';
-import type { Ref } from 'vue';
+import { ref, computed } from 'vue'
+import type { Ref } from 'vue'
+
+// Import Google Maps types
+type LatLng = google.maps.LatLng
+type Geocoder = google.maps.Geocoder
+type GeocoderResponse = google.maps.GeocoderResponse
+type DistanceMatrixService = google.maps.DistanceMatrixService
+type DistanceMatrixResponse = google.maps.DistanceMatrixResponse
 
 interface Store {
-  name: string;
-  position: { lat: number; lng: number };
-  address: string;
-  hours: string;
-  phone: string;
-  mapsUrl: string;
+  name: string
+  position: { lat: number; lng: number }
+  address: string
+  hours: string
+  phone: string
+  mapsUrl: string
+}
+
+interface Marker {
+  position: { lat: number; lng: number }
+  title: string
+  info: string
 }
 
 // Store locations data
@@ -98,46 +111,46 @@ const stores: Store[] = [
     phone: "+91-9621043878",
     mapsUrl: "https://www.google.com/maps/search/New+Urvashi+Jewellers/@26.722278,83.433515,17z"
   }
-];
+]
 
 // Calculate the center point between the two stores
 const initialCenter = {
   lat: (stores[0].position.lat + stores[1].position.lat) / 2,
   lng: (stores[0].position.lng + stores[1].position.lng) / 2
-};
+}
 
-const mapRef = ref(null);
-const searchQuery = ref('');
-const userLocation = ref<{ lat: number; lng: number } | null>(null);
-const selectedStore = ref<Store>(stores[0]);
-const distance = ref<string>('');
-const mapCenter = ref(initialCenter);
+const mapRef = ref<{ $refs: { map: google.maps.Map } } | null>(null)
+const searchQuery = ref('')
+const userLocation = ref<{ lat: number; lng: number } | null>(null)
+const selectedStore = ref<Store>(stores[0])
+const distance = ref<string>('')
+const mapCenter = ref(initialCenter)
 
 // Combine store markers with user location marker
-const allMarkers = computed(() => {
+const allMarkers = computed<Marker[]>(() => {
   const markers = stores.map(store => ({
     position: store.position,
     title: store.name,
     info: `<strong>${store.name}</strong><br>${store.address}`
-  }));
+  }))
 
   if (userLocation.value) {
     markers.push({
       position: userLocation.value,
       title: 'Your Location',
       info: 'Your Current Location'
-    });
+    })
   }
 
-  return markers;
-});
+  return markers
+})
 
 // Select a store
 function selectStore(store: Store) {
-  selectedStore.value = store;
-  mapCenter.value = store.position;
+  selectedStore.value = store
+  mapCenter.value = store.position
   if (userLocation.value) {
-    calculateDistance();
+    calculateDistance()
   }
 }
 
@@ -145,70 +158,70 @@ function selectStore(store: Store) {
 async function getUserLocation() {
   try {
     const position = await new Promise<GeolocationPosition>((resolve, reject) => {
-      navigator.geolocation.getCurrentPosition(resolve, reject);
-    });
+      navigator.geolocation.getCurrentPosition(resolve, reject)
+    })
 
     userLocation.value = {
       lat: position.coords.latitude,
       lng: position.coords.longitude
-    };
+    }
 
-    await calculateDistance();
+    await calculateDistance()
   } catch (error) {
-    console.error('Error getting location:', error);
-    alert('Unable to get your location. Please ensure location services are enabled.');
+    console.error('Error getting location:', error)
+    alert('Unable to get your location. Please ensure location services are enabled.')
   }
 }
 
 // Search for a location
 async function searchLocation() {
-  if (!searchQuery.value) return;
+  if (!searchQuery.value) return
 
   try {
-    const geocoder = new google.maps.Geocoder();
-    const result = await geocoder.geocode({ address: searchQuery.value });
+    const geocoder = new google.maps.Geocoder() as Geocoder
+    const result = await geocoder.geocode({ address: searchQuery.value }) as GeocoderResponse
 
-    if (result.results[0]) {
+    if (result.results && result.results[0]) {
       userLocation.value = {
         lat: result.results[0].geometry.location.lat(),
         lng: result.results[0].geometry.location.lng()
-      };
+      }
 
-      await calculateDistance();
+      await calculateDistance()
     }
   } catch (error) {
-    console.error('Geocoding error:', error);
-    alert('Location not found. Please try again.');
+    console.error('Geocoding error:', error)
+    alert('Location not found. Please try again.')
   }
 }
 
 // Calculate distance between user location and store
 async function calculateDistance() {
-  if (!userLocation.value || !selectedStore.value) return;
+  if (!userLocation.value || !selectedStore.value) return
 
   try {
-    const service = new google.maps.DistanceMatrixService();
+    const service = new google.maps.DistanceMatrixService() as DistanceMatrixService
     const result = await service.getDistanceMatrix({
       origins: [new google.maps.LatLng(userLocation.value.lat, userLocation.value.lng)],
       destinations: [new google.maps.LatLng(selectedStore.value.position.lat, selectedStore.value.position.lng)],
       travelMode: google.maps.TravelMode.DRIVING,
       unitSystem: google.maps.UnitSystem.METRIC
-    });
+    }) as DistanceMatrixResponse
 
     if (result.rows[0]?.elements[0]?.distance) {
-      distance.value = result.rows[0].elements[0].distance.text;
+      distance.value = result.rows[0].elements[0].distance.text
     }
   } catch (error) {
-    console.error('Distance calculation error:', error);
+    console.error('Distance calculation error:', error)
   }
 }
 
 // Open Google Maps directions in a new tab
 function getDirections() {
-  if (!userLocation.value || !selectedStore.value) return;
+  if (!userLocation.value || !selectedStore.value) return
 
-  const url = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.value.lat},${userLocation.value.lng}&destination=${selectedStore.value.position.lat},${selectedStore.value.position.lng}`;
-  window.open(url, '_blank');
+  const url = `https://www.google.com/maps/dir/?api=1&origin=${userLocation.value.lat},${userLocation.value.lng}&destination=${selectedStore.value.position.lat},${selectedStore.value.position.lng}`
+  window.open(url, '_blank')
 }
 </script>
 

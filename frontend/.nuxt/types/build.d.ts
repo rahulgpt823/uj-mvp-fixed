@@ -4,6 +4,7 @@ declare module "#build/plugins.client.mjs";
 declare module "#build/css.mjs";
 declare module "#build/fetch.mjs";
 declare module "#build/error-component.mjs";
+declare module "#build/global-polyfills.mjs";
 declare module "#build/layouts.mjs";
 declare module "#build/middleware.mjs";
 declare module "#build/nuxt.config.mjs";

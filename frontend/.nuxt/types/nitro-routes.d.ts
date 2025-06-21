@@ -3,8 +3,60 @@ import type { Serialize, Simplify } from "nitropack/types";
 declare module "nitropack/types" {
   type Awaited<T> = T extends PromiseLike<infer U> ? Awaited<U> : T
   interface InternalApi {
+    '/api/auth/delete-account': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/delete-account.delete').default>>>>
+    }
+    '/api/auth/logout': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/logout.post').default>>>>
+    }
+    '/api/auth/send-otp': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/send-otp').default>>>>
+    }
+    '/api/auth/session': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/session.get').default>>>>
+    }
+    '/api/auth/verify-otp': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/verify-otp').default>>>>
+    }
+    '/api/categories/:id/subcategories': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/categories/[id]/subcategories').default>>>>
+    }
+    '/api/categories': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/categories/index').default>>>>
+    }
+    '/api/enquiries/bulk': {
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/enquiries/bulk.post').default>>>>
+    }
+    '/api/favorites/:productId': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/favorites/[productId].delete').default>>>>
+    }
+    '/api/favorites/clear': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/favorites/clear.delete').default>>>>
+    }
+    '/api/favorites': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/favorites/index.get').default>>>>
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/favorites/index.post').default>>>>
+    }
+    '/api/products/:id': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/products/[id]').default>>>>
+    }
+    '/api/products/:id/toggle-publish': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/products/[id]/toggle-publish').default>>>>
+    }
+    '/api/products/images': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/products/images').default>>>>
+    }
+    '/api/products': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/products/index').default>>>>
+    }
+    '/api/products/supabase': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/products/supabase').default>>>>
+    }
     '/__nuxt_error': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/handlers/renderer').default>>>>
+    }
+    '/__nuxt_island/**': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/#internal/nuxt/island-renderer').default>>>>
     }
   }
 }

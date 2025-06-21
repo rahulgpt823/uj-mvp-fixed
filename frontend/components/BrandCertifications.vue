@@ -3,7 +3,10 @@
     <div class="container">
       <div class="certifications-grid">
         <div class="brand-logo">
-          <img src="/images/uj-logo.svg" alt="Urvashi Jewellers Logo" />
+          <div class="logo-container">
+            <img src="/images/uj-logo.png" alt="Urvashi Jewellers Logo" />
+            <span class="established">Since 2003</span>
+          </div>
         </div>
         <div class="certifications">
           <div class="certification-item">
@@ -53,13 +56,32 @@
   text-align: center;
 }
 
+.logo-container {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: var(--spacing-xs);
+}
+
 .brand-logo img {
-  max-width: 250px;
+  max-width: 200px;
   height: auto;
+  object-fit: contain;
+  transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
 }
 
 .brand-logo:hover img {
-  --jewelry-opacity: 1;
+  transform: scale(1.1);
+}
+
+.established {
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  color: var(--primary);
+  font-size: 1.1rem;
+  margin-top: -4px;
+  letter-spacing: 0.5px;
 }
 
 /* Fix the deep selector syntax */
@@ -140,6 +162,11 @@
     flex-direction: row;
     flex-wrap: wrap;
     justify-content: center;
+  }
+
+  .established {
+    font-size: 1rem;
+    letter-spacing: 0.3px;
   }
 }
 </style> 

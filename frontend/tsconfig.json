@@ -1,21 +1,25 @@
 {
+  // https://nuxt.com/docs/guide/concepts/typescript
   "extends": "./.nuxt/tsconfig.json",
   "compilerOptions": {
-    "target": "ES2020",
-    "module": "ESNext",
-    "moduleResolution": "Bundler",
-    "lib": ["ESNext", "DOM"],
     "strict": true,
-    "resolveJsonModule": true,
-    "esModuleInterop": true,
     "skipLibCheck": true,
-    "types": ["node", "@types/google.maps"]
+    "types": ["node"],
+    "jsx": "preserve",
+    "jsxImportSource": "vue",
+    "paths": {
+      "~/*": ["./*"],
+      "@/*": ["./*"]
+    }
   },
-  "exclude": ["node_modules"],
   "include": [
-    "./**/*.ts",
-    "./**/*.vue",
-    "./**/*.json"
+    ".nuxt/nuxt.d.ts",
+    "**/*.ts",
+    "**/*.tsx",
+    "**/*.vue"
+  ],
+  "exclude": [
+    "node_modules"
   ]
 }
   

@@ -1,17 +1,28 @@
 <template>
   <div class="app">
-    <PriceTicker />
+    <!-- <PriceTicker /> -->
     <header class="header">
       <div class="container">
         <div class="header-content">
           <NuxtLink to="/" class="logo">
-            <img src="/images/uj-logo.svg" alt="Urvashi Jewellers Logo" class="logo-image" />
-            <h1>Urvashi Jewellers</h1>
+            <img src="/images/uj-logo.png" alt="Urvashi Jewellers Logo" class="logo-image" />
+            <div class="logo-text">
+              <h1>Urvashi Jewellers</h1>
+              <span class="established">Since 2003</span>
+            </div>
           </NuxtLink>
           <nav class="nav">
             <ul class="nav-list">
               <li><NuxtLink to="/">{{ translations.home }}</NuxtLink></li>
-              <li><NuxtLink to="/collections">{{ translations.collections }}</NuxtLink></li>
+              <li><NuxtLink to="/products">{{ translations.products }}</NuxtLink></li>
+              <li
+                class="collections-nav-item"
+                @mouseenter="showCollectionsMenu = true"
+                @mouseleave="showCollectionsMenu = false"
+              >
+                <NuxtLink to="/collections">{{ translations.collections }}</NuxtLink>
+                <MegaMenu :show="showCollectionsMenu" />
+              </li>
               <li><NuxtLink to="/about">{{ translations.aboutUs }}</NuxtLink></li>
               <li><NuxtLink to="/stores">{{ translations.stores }}</NuxtLink></li>
               <li><NuxtLink to="/contact">{{ translations.contact }}</NuxtLink></li>
@@ -26,21 +37,30 @@
             <button class="icon-btn">
               <span class="material-icons">search</span>
             </button>
-            <button class="icon-btn">
+            <button 
+              @click="handleFavoritesClick"
+              class="icon-btn"
+              :title="authStore.isLoggedIn ? 'Favorites' : 'Login to add favorites'"
+            >
               <span class="material-icons">favorite_border</span>
             </button>
-            <button class="icon-btn">
-              <span class="material-icons">shopping_bag</span>
-            </button>
+            
+            <!-- User Authentication -->
+            <UserProfileMenu v-if="authStore.isLoggedIn" />
+            
+            <NuxtLink v-else to="/login" class="login-btn">
+              <span class="material-icons">login</span>
+              Login
+            </NuxtLink>
           </div>
         </div>
       </div>
     </header>
-    
+
     <main>
       <slot />
     </main>
-    
+
     <footer class="footer">
       <div class="container">
         <div class="footer-content">
@@ -94,7 +114,7 @@
             </div>
           </div>
         </div>
-        
+
         <div class="footer-bottom">
           <p>{{ translations.copyright.replace('{year}', new Date().getFullYear().toString()) }}</p>
         </div>
@@ -104,22 +124,30 @@
 </template>
 
 <script setup lang="ts">
-import { ref, watch, onMounted } from '#imports';
-import { supportedLanguages } from '~/services/translate';
-import { useTranslation } from '~/composables/useTranslation';
+import { ref, watch, onMounted, onUnmounted, computed } from 'vue'
+import { supportedLanguages } from '~/services/translate'
+import { useTranslation } from '~/composables/useTranslation'
+import { useAuthStore } from '~/stores/auth'
+import MegaMenu from '~/components/MegaMenu.vue'
+import UserProfileMenu from '~/components/UserProfileMenu.vue'
 
-const { currentLanguage, translate } = useTranslation();
-const languages = supportedLanguages;
-const selectedLanguage = ref(currentLanguage.value);
+const { currentLanguage, translate } = useTranslation()
+const languages = supportedLanguages
+const selectedLanguage = ref(currentLanguage.value)
+const showCollectionsMenu = ref(false)
+
+// Auth store
+const authStore = useAuthStore()
 
 const translations = ref({
   home: 'Home',
+  products: 'Products',
   collections: 'Collections',
   aboutUs: 'About Us',
   contact: 'Contact',
   stores: 'Store Locator',
   companyName: 'Urvashi Jewellers',
-  footerTagline: 'Exquisite jewelry crafted with passion and precision since 1985.',
+  footerTagline: 'Exquisite jewelry crafted with passion and precision since 2003.',
   quickLinks: 'Quick Links',
   necklaces: 'Necklaces',
   earrings: 'Earrings',
@@ -141,7 +169,7 @@ async function updateTranslations() {
   if (selectedLanguage.value !== 'en') {
     try {
       const [
-        home, collections, aboutUs, contact, stores,
+        home, products, collections, aboutUs, contact, stores,
         companyName, footerTagline, quickLinks,
         necklaces, earrings, rings, bracelets,
         customerService, shipping, returns, faq,
@@ -149,12 +177,13 @@ async function updateTranslations() {
         phone, copyright
       ] = await Promise.all([
         translate('Home'),
+        translate('Products'),
         translate('Collections'),
         translate('About Us'),
         translate('Contact'),
         translate('Store Locator'),
         translate('Urvashi Jewellers'),
-        translate('Exquisite jewelry crafted with passion and precision since 1985.'),
+        translate('Exquisite jewelry crafted with passion and precision since 2003.'),
         translate('Quick Links'),
         translate('Necklaces'),
         translate('Earrings'),
@@ -174,6 +203,7 @@ async function updateTranslations() {
       
       translations.value = {
         home,
+        products,
         collections,
         aboutUs,
         contact,
@@ -202,12 +232,13 @@ async function updateTranslations() {
   } else {
     translations.value = {
       home: 'Home',
+      products: 'Products',
       collections: 'Collections',
       aboutUs: 'About Us',
       contact: 'Contact',
       stores: 'Store Locator',
       companyName: 'Urvashi Jewellers',
-      footerTagline: 'Exquisite jewelry crafted with passion and precision since 1985.',
+      footerTagline: 'Exquisite jewelry crafted with passion and precision since 2003.',
       quickLinks: 'Quick Links',
       necklaces: 'Necklaces',
       earrings: 'Earrings',
@@ -235,14 +266,37 @@ async function handleLanguageChange() {
   }
 }
 
+// Auth methods
+const handleFavoritesClick = () => {
+  if (!authStore.isLoggedIn) {
+    navigateTo('/login?returnTo=/account/favorites')
+  } else {
+    navigateTo('/account/favorites')
+  }
+}
+
+// Close dropdowns when clicking outside
+const handleClickOutside = (event: Event) => {
+  const target = event.target as HTMLElement
+  if (!target.closest('.header-actions')) {
+    // Close any open dropdowns if needed
+  }
+}
+
 // Keep selectedLanguage in sync with currentLanguage
-watch(currentLanguage, async (newLang) => {
-  selectedLanguage.value = newLang;
-  await updateTranslations();
-});
+watch(currentLanguage, async (newLang: string) => {
+  selectedLanguage.value = newLang
+  await updateTranslations()
+})
 
 onMounted(async () => {
   await updateTranslations();
+  await authStore.initAuth();
+  document.addEventListener('click', handleClickOutside);
+});
+
+onUnmounted(() => {
+  document.removeEventListener('click', handleClickOutside);
 });
 </script>
 
@@ -260,26 +314,36 @@ onMounted(async () => {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  gap: var(--spacing-lg);
 }
 
 .logo {
   display: flex;
   align-items: center;
-  gap: var(--spacing-md);
+  gap: var(--spacing-sm);
   text-decoration: none;
   padding: var(--spacing-xs);
 }
 
 .logo-image {
-  height: 100px;
-  width: 100px;
+  height: 95px;
+  width: 95px;
   transform-origin: center center;
   transition: transform 0.4s cubic-bezier(0.34, 1.56, 0.64, 1);
   will-change: transform;
+  object-fit: contain;
+  image-rendering: -webkit-optimize-contrast;
+  image-rendering: crisp-edges;
 }
 
 .logo:hover .logo-image {
   transform: scale(1.12);
+}
+
+.logo-text {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
 }
 
 .logo h1 {
@@ -288,13 +352,38 @@ onMounted(async () => {
   color: #C97C95;
   font-family: var(--font-heading);
   font-weight: 400;
-  transition: opacity 0.3s ease;
+  line-height: 1.1;
+}
+
+.logo .established {
+  font-size: 1rem;
+  color: var(--primary);
+  font-family: var(--font-heading);
+  font-style: italic;
+  font-weight: 600;
+  margin-top: 2px;
+  margin-left: 2px;
+  letter-spacing: 0.5px;
 }
 
 .nav-list {
   display: flex;
   list-style: none;
   gap: var(--spacing-lg);
+  font-family: var(--font-heading);
+  font-weight: 500;
+  font-size: 1.1rem;
+  align-items: center;
+}
+
+.nav-list li {
+  display: flex;
+  align-items: center;
+  white-space: nowrap;
+}
+
+.collections-nav-item {
+  position: relative;
 }
 
 .nav-list a {
@@ -337,6 +426,116 @@ onMounted(async () => {
 
 .icon-btn:hover {
   color: var(--primary);
+}
+
+/* User Menu Styles */
+.user-menu {
+  position: relative;
+}
+
+.user-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background: none;
+  border: none;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: var(--border-radius);
+  transition: var(--transition);
+  color: var(--dark);
+}
+
+.user-btn:hover {
+  background-color: rgba(var(--primary-rgb), 0.1);
+  color: var(--primary);
+}
+
+.user-avatar {
+  width: 32px;
+  height: 32px;
+  border-radius: 50%;
+  background-color: var(--primary);
+  color: white;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  font-size: 0.875rem;
+}
+
+.user-name {
+  font-weight: 500;
+  font-size: 0.875rem;
+}
+
+.user-dropdown {
+  position: absolute;
+  top: 100%;
+  right: 0;
+  background: white;
+  border: 1px solid var(--border-color);
+  border-radius: var(--border-radius);
+  box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+  min-width: 200px;
+  z-index: 1000;
+  margin-top: 4px;
+}
+
+.dropdown-item {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  padding: 12px 16px;
+  text-decoration: none;
+  color: var(--dark);
+  transition: var(--transition);
+  border: none;
+  background: none;
+  width: 100%;
+  text-align: left;
+  cursor: pointer;
+  font-size: 0.875rem;
+}
+
+.dropdown-item:hover {
+  background-color: rgba(var(--primary-rgb), 0.05);
+  color: var(--primary);
+}
+
+.dropdown-item.logout {
+  color: #dc2626;
+}
+
+.dropdown-item.logout:hover {
+  background-color: rgba(220, 38, 38, 0.05);
+  color: #dc2626;
+}
+
+.dropdown-divider {
+  border: none;
+  border-top: 1px solid var(--border-color);
+  margin: 4px 0;
+}
+
+.login-btn {
+  display: flex;
+  align-items: center;
+  gap: var(--spacing-sm);
+  background-color: var(--primary);
+  color: white;
+  padding: 8px 16px;
+  border: none;
+  border-radius: var(--border-radius);
+  text-decoration: none;
+  font-weight: 500;
+  transition: var(--transition);
+  cursor: pointer;
+}
+
+.login-btn:hover {
+  background-color: var(--primary-dark);
+  transform: translateY(-1px);
 }
 
 .footer {
@@ -406,27 +605,17 @@ onMounted(async () => {
     gap: var(--spacing-md);
   }
   
-  .nav-list {
-    flex-wrap: wrap;
-    justify-content: center;
-  }
-  
-  .header-actions {
-    width: 100%;
-    justify-content: center;
-  }
-  
-  .logo-image {
-    height: 85px;
-    width: 85px;
-  }
-  
   .logo h1 {
-    font-size: 2rem;
+    font-size: 1.8rem;
   }
   
-  .logo:hover .logo-image {
-    transform: scale(1.1);
+  .logo .established {
+    font-size: 0.9rem;
+  }
+  
+  .nav-list {
+    font-size: 1rem;
+    gap: var(--spacing-md);
   }
 }
 

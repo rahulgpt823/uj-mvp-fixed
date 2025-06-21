@@ -1,50 +1,24 @@
-import express, { Request, Response } from 'express';
+import express from 'express';
+import {
+    getAllProducts,
+    getProductById,
+    createProduct,
+    updateProduct,
+    deleteProduct,
+    togglePublishStatus
+} from '../controllers/productController';
+import { authenticateToken, isAdmin } from '../middleware/auth';
 
 const router = express.Router();
 
-// Sample data (will be replaced with database calls later)
-const products = [
-    {
-        id: '1',
-        name: 'Diamond Necklace',
-        category: 'Necklaces',
-        price: 45000,
-        image: '/images/diamond-necklace.jpg',
-        description: 'Elegant diamond necklace with 18K gold setting',
-        inStock: true
-    },
-    {
-        id: '2',
-        name: 'Gold Bangles Set',
-        category: 'Bangles',
-        price: 28000,
-        image: '/images/gold-bangles.jpg',
-        description: 'Traditional gold bangles set with intricate design',
-        inStock: true
-    },
-    {
-        id: '3',
-        name: 'Ruby Earrings',
-        category: 'Earrings',
-        price: 15000,
-        image: '/images/ruby-earrings.jpg',
-        description: 'Beautiful ruby earrings with diamond accents',
-        inStock: false
-    }
-];
+// Public routes
+router.get('/', getAllProducts);
+router.get('/:id', getProductById);
 
-// Get all products
-router.get('/', (req: Request, res: Response) => {
-    res.json(products);
-});
-
-// Get product by ID
-router.get('/:id', (req: Request, res: Response) => {
-    const product = products.find(p => p.id === req.params.id);
-    if (!product) {
-        return res.status(404).json({ message: 'Product not found' });
-    }
-    res.json(product);
-});
+// Protected routes (admin only)
+router.post('/', authenticateToken, isAdmin, createProduct);
+router.put('/:id', authenticateToken, isAdmin, updateProduct);
+router.delete('/:id', authenticateToken, isAdmin, deleteProduct);
+router.patch('/:id/publish', authenticateToken, isAdmin, togglePublishStatus);
 
 export default router; 
