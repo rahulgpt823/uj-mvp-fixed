@@ -25,6 +25,10 @@
             <span class="material-icons">inventory_2</span>
             Products
           </NuxtLink>
+          <NuxtLink to="/admin/collections" class="nav-item">
+            <span class="material-icons">collections</span>
+            Collections
+          </NuxtLink>
           <NuxtLink to="/admin/orders" class="nav-item">
             <span class="material-icons">shopping_cart</span>
             Orders

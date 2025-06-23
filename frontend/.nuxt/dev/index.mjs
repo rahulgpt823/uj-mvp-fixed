@@ -3,7 +3,7 @@ import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
 import nodeCrypto, { randomBytes } from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, getRequestURL, getResponseHeader, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, createError, getRouterParam, getCookie, getHeader, parseCookies, setCookie, getResponseStatusText } from 'file://C:/repos/uj-mvp/frontend/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, getRequestURL, getResponseHeader, getResponseStatus, createError, getCookie, getHeader, parseCookies, setCookie, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getRouterParam, getResponseStatusText } from 'file://C:/repos/uj-mvp/frontend/node_modules/h3/dist/index.mjs';
 import { escapeHtml } from 'file://C:/repos/uj-mvp/frontend/node_modules/@vue/shared/dist/shared.cjs.js';
 import { createClient } from 'file://C:/repos/uj-mvp/frontend/node_modules/@supabase/supabase-js/dist/main/index.js';
 import { parsePhoneNumber, isValidPhoneNumber } from 'file://C:/repos/uj-mvp/frontend/node_modules/libphonenumber-js/index.js';
@@ -28,7 +28,7 @@ import { createFetch, Headers as Headers$1 } from 'file://C:/repos/uj-mvp/fronte
 import { fetchNodeRequestHandler, callNodeRequestHandler } from 'file://C:/repos/uj-mvp/frontend/node_modules/node-mock-http/dist/index.mjs';
 import { createStorage, prefixStorage } from 'file://C:/repos/uj-mvp/frontend/node_modules/unstorage/dist/index.mjs';
 import unstorage_47drivers_47fs from 'file://C:/repos/uj-mvp/frontend/node_modules/unstorage/drivers/fs.mjs';
-import { digest } from 'file://C:/repos/uj-mvp/frontend/node_modules/ohash/dist/index.mjs';
+import { digest, hash as hash$1 } from 'file://C:/repos/uj-mvp/frontend/node_modules/ohash/dist/index.mjs';
 import { getContext } from 'file://C:/repos/uj-mvp/frontend/node_modules/unctx/dist/index.mjs';
 import { toRouteMatcher, createRouter } from 'file://C:/repos/uj-mvp/frontend/node_modules/radix3/dist/index.mjs';
 import { readFile } from 'node:fs/promises';
@@ -37,6 +37,9 @@ import { ErrorParser } from 'file://C:/repos/uj-mvp/frontend/node_modules/youch-
 import { Youch } from 'file://C:/repos/uj-mvp/frontend/node_modules/youch/build/index.js';
 import { SourceMapConsumer } from 'file://C:/repos/uj-mvp/frontend/node_modules/source-map/source-map.js';
 import { captureRawStackTrace, parseRawStackTrace } from 'file://C:/repos/uj-mvp/frontend/node_modules/errx/dist/index.js';
+import { basename } from 'file://C:/repos/uj-mvp/frontend/node_modules/@nuxt/icon/node_modules/pathe/dist/index.mjs';
+import { getIcons } from 'file://C:/repos/uj-mvp/frontend/node_modules/@iconify/utils/lib/index.mjs';
+import { collections } from 'file://C:/repos/uj-mvp/frontend/.nuxt/nuxt-icon-server-bundle.mjs';
 import { walkResolver } from 'file://C:/repos/uj-mvp/frontend/node_modules/unhead/dist/utils.mjs';
 
 const serverAssets = [{"baseName":"server","dir":"C:/repos/uj-mvp/frontend/server/assets"}];
@@ -580,7 +583,201 @@ function cloneWithProxy(obj, overrides) {
 const cachedEventHandler = defineCachedEventHandler;
 
 const inlineAppConfig = {
-  "nuxt": {}
+  "nuxt": {},
+  "icon": {
+    "provider": "server",
+    "class": "",
+    "aliases": {},
+    "iconifyApiEndpoint": "https://api.iconify.design",
+    "localApiEndpoint": "/api/_nuxt_icon",
+    "fallbackToApi": true,
+    "cssSelectorPrefix": "i-",
+    "cssWherePseudo": true,
+    "mode": "css",
+    "attrs": {
+      "aria-hidden": true
+    },
+    "collections": [
+      "academicons",
+      "akar-icons",
+      "ant-design",
+      "arcticons",
+      "basil",
+      "bi",
+      "bitcoin-icons",
+      "bpmn",
+      "brandico",
+      "bx",
+      "bxl",
+      "bxs",
+      "bytesize",
+      "carbon",
+      "catppuccin",
+      "cbi",
+      "charm",
+      "ci",
+      "cib",
+      "cif",
+      "cil",
+      "circle-flags",
+      "circum",
+      "clarity",
+      "codicon",
+      "covid",
+      "cryptocurrency",
+      "cryptocurrency-color",
+      "dashicons",
+      "devicon",
+      "devicon-plain",
+      "ei",
+      "el",
+      "emojione",
+      "emojione-monotone",
+      "emojione-v1",
+      "entypo",
+      "entypo-social",
+      "eos-icons",
+      "ep",
+      "et",
+      "eva",
+      "f7",
+      "fa",
+      "fa-brands",
+      "fa-regular",
+      "fa-solid",
+      "fa6-brands",
+      "fa6-regular",
+      "fa6-solid",
+      "fad",
+      "fe",
+      "feather",
+      "file-icons",
+      "flag",
+      "flagpack",
+      "flat-color-icons",
+      "flat-ui",
+      "flowbite",
+      "fluent",
+      "fluent-emoji",
+      "fluent-emoji-flat",
+      "fluent-emoji-high-contrast",
+      "fluent-mdl2",
+      "fontelico",
+      "fontisto",
+      "formkit",
+      "foundation",
+      "fxemoji",
+      "gala",
+      "game-icons",
+      "geo",
+      "gg",
+      "gis",
+      "gravity-ui",
+      "gridicons",
+      "grommet-icons",
+      "guidance",
+      "healthicons",
+      "heroicons",
+      "heroicons-outline",
+      "heroicons-solid",
+      "hugeicons",
+      "humbleicons",
+      "ic",
+      "icomoon-free",
+      "icon-park",
+      "icon-park-outline",
+      "icon-park-solid",
+      "icon-park-twotone",
+      "iconamoon",
+      "iconoir",
+      "icons8",
+      "il",
+      "ion",
+      "iwwa",
+      "jam",
+      "la",
+      "lets-icons",
+      "line-md",
+      "logos",
+      "ls",
+      "lucide",
+      "lucide-lab",
+      "mage",
+      "majesticons",
+      "maki",
+      "map",
+      "marketeq",
+      "material-symbols",
+      "material-symbols-light",
+      "mdi",
+      "mdi-light",
+      "medical-icon",
+      "memory",
+      "meteocons",
+      "mi",
+      "mingcute",
+      "mono-icons",
+      "mynaui",
+      "nimbus",
+      "nonicons",
+      "noto",
+      "noto-v1",
+      "octicon",
+      "oi",
+      "ooui",
+      "openmoji",
+      "oui",
+      "pajamas",
+      "pepicons",
+      "pepicons-pencil",
+      "pepicons-pop",
+      "pepicons-print",
+      "ph",
+      "pixelarticons",
+      "prime",
+      "ps",
+      "quill",
+      "radix-icons",
+      "raphael",
+      "ri",
+      "rivet-icons",
+      "si-glyph",
+      "simple-icons",
+      "simple-line-icons",
+      "skill-icons",
+      "solar",
+      "streamline",
+      "streamline-emojis",
+      "subway",
+      "svg-spinners",
+      "system-uicons",
+      "tabler",
+      "tdesign",
+      "teenyicons",
+      "token",
+      "token-branded",
+      "topcoat",
+      "twemoji",
+      "typcn",
+      "uil",
+      "uim",
+      "uis",
+      "uit",
+      "uiw",
+      "unjs",
+      "vaadin",
+      "vs",
+      "vscode-icons",
+      "websymbol",
+      "weui",
+      "whh",
+      "wi",
+      "wpf",
+      "zmdi",
+      "zondicons"
+    ],
+    "fetchTimeout": 1500
+  }
 };
 
 
@@ -667,7 +864,10 @@ const _inlineRuntimeConfig = {
   "twilioAuthToken": "005c24e9df2d824c44eca3ed5b8ac57a",
   "twilioPhoneNumber": "+13155568321",
   "supabaseUrl": "https://bclkkbinnlxxsucnwlfj.supabase.co",
-  "supabaseServiceRoleKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJjbGtrYmlubmx4eHN1Y253bGZqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTg0MzAwNCwiZXhwIjoyMDYxNDE5MDA0fQ.OH-sqazsVhAMf-pz78M4fKCo_Llbh2JSqe4JTWwtyeY"
+  "supabaseServiceRoleKey": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImJjbGtrYmlubmx4eHN1Y253bGZqIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc0NTg0MzAwNCwiZXhwIjoyMDYxNDE5MDA0fQ.OH-sqazsVhAMf-pz78M4fKCo_Llbh2JSqe4JTWwtyeY",
+  "icon": {
+    "serverKnownCssClasses": []
+  }
 };
 const envOptions = {
   prefix: "NITRO_",
@@ -689,7 +889,12 @@ function useRuntimeConfig(event) {
   event.context.nitro.runtimeConfig = runtimeConfig;
   return runtimeConfig;
 }
-_deepFreeze(klona(appConfig));
+const _sharedAppConfig = _deepFreeze(klona(appConfig));
+function useAppConfig(event) {
+  {
+    return _sharedAppConfig;
+  }
+}
 function _deepFreeze(object) {
   const propNames = Object.getOwnPropertyNames(object);
   for (const name of propNames) {
@@ -1132,6 +1337,261 @@ const plugins = [
 _c9ALFzlTh5P31KtQ1ELG41p6fiwIBu6mtDulhEbe58
 ];
 
+function defineRenderHandler(render) {
+  const runtimeConfig = useRuntimeConfig();
+  return eventHandler(async (event) => {
+    const nitroApp = useNitroApp();
+    const ctx = { event, render, response: void 0 };
+    await nitroApp.hooks.callHook("render:before", ctx);
+    if (!ctx.response) {
+      if (event.path === `${runtimeConfig.app.baseURL}favicon.ico`) {
+        setResponseHeader(event, "Content-Type", "image/x-icon");
+        return send(
+          event,
+          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
+        );
+      }
+      ctx.response = await ctx.render(event);
+      if (!ctx.response) {
+        const _currentStatus = getResponseStatus(event);
+        setResponseStatus(event, _currentStatus === 200 ? 500 : _currentStatus);
+        return send(
+          event,
+          "No response returned from render handler: " + event.path
+        );
+      }
+    }
+    await nitroApp.hooks.callHook("render:response", ctx.response, ctx);
+    if (ctx.response.headers) {
+      setResponseHeaders(event, ctx.response.headers);
+    }
+    if (ctx.response.statusCode || ctx.response.statusMessage) {
+      setResponseStatus(
+        event,
+        ctx.response.statusCode,
+        ctx.response.statusMessage
+      );
+    }
+    return ctx.response.body;
+  });
+}
+
+const scheduledTasks = false;
+
+const tasks = {
+  
+};
+
+const __runningTasks__ = {};
+async function runTask(name, {
+  payload = {},
+  context = {}
+} = {}) {
+  if (__runningTasks__[name]) {
+    return __runningTasks__[name];
+  }
+  if (!(name in tasks)) {
+    throw createError({
+      message: `Task \`${name}\` is not available!`,
+      statusCode: 404
+    });
+  }
+  if (!tasks[name].resolve) {
+    throw createError({
+      message: `Task \`${name}\` is not implemented!`,
+      statusCode: 501
+    });
+  }
+  const handler = await tasks[name].resolve();
+  const taskEvent = { name, payload, context };
+  __runningTasks__[name] = handler.run(taskEvent);
+  try {
+    const res = await __runningTasks__[name];
+    return res;
+  } finally {
+    delete __runningTasks__[name];
+  }
+}
+
+function buildAssetsDir() {
+  return useRuntimeConfig().app.buildAssetsDir;
+}
+function buildAssetsURL(...path) {
+  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
+}
+function publicAssetsURL(...path) {
+  const app = useRuntimeConfig().app;
+  const publicBase = app.cdnURL || app.baseURL;
+  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
+}
+
+const verifyAuthToken = (event) => {
+  const config = useRuntimeConfig();
+  const token = getCookie(event, "auth_token");
+  if (!token) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized",
+      message: "Missing authentication token"
+    });
+  }
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+    return decoded;
+  } catch (error) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized",
+      message: "Invalid authentication token"
+    });
+  }
+};
+
+const serverSupabaseClient = (event) => {
+  const config = useRuntimeConfig();
+  let cookies = {};
+  const cookieHeader = getHeader(event, "cookie");
+  if (cookieHeader) {
+    cookies = parseCookies(event);
+  }
+  const supabase = createServerClient(
+    config.public.supabaseUrl,
+    config.public.supabaseAnonKey,
+    {
+      cookies: {
+        get(key) {
+          return cookies[key];
+        },
+        set(key, value, options) {
+          setCookie(event, key, value, options);
+        },
+        remove(key, options) {
+          setCookie(event, key, "", { ...options, maxAge: -1 });
+        }
+      }
+    }
+  );
+  return supabase;
+};
+
+async function validateSession(event) {
+  try {
+    const config = useRuntimeConfig();
+    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+    const sessionToken = getCookie(event, "session_token");
+    if (!sessionToken) {
+      return { success: false };
+    }
+    const { data: session, error: sessionError } = await supabase.from("user_sessions").select("user_id, expires_at, is_active").eq("session_token", sessionToken).eq("is_active", true).single();
+    if (sessionError || !session) {
+      console.log("\u274C Session validation failed:", {
+        sessionError: sessionError == null ? void 0 : sessionError.message,
+        hasSession: !!session
+      });
+      return { success: false };
+    }
+    const now = /* @__PURE__ */ new Date();
+    const expiresAt = new Date(session.expires_at);
+    if (expiresAt < now) {
+      console.log("\u274C Session expired:", {
+        now: now.toISOString(),
+        expiresAt: expiresAt.toISOString()
+      });
+      return { success: false };
+    }
+    const { data: user, error: userError } = await supabase.from("users").select("id, first_name, last_name, mobile_number, email, is_active, role").eq("id", session.user_id).single();
+    if (userError || !user) {
+      console.log("\u274C User lookup failed:", userError == null ? void 0 : userError.message);
+      return { success: false };
+    }
+    if (!user.is_active) {
+      console.log("\u274C User account is inactive");
+      return { success: false };
+    }
+    return {
+      success: true,
+      userId: user.id,
+      user
+    };
+  } catch (error) {
+    console.error("\u274C Session validation error:", error);
+    return { success: false };
+  }
+}
+async function requireAuth(event) {
+  const validation = await validateSession(event);
+  if (!validation.success || !validation.userId || !validation.user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized - Authentication required"
+    });
+  }
+  return {
+    userId: validation.userId,
+    user: validation.user
+  };
+}
+
+const warnOnceSet = /* @__PURE__ */ new Set();
+const DEFAULT_ENDPOINT = "https://api.iconify.design";
+const _ks7MPX = defineCachedEventHandler(async (event) => {
+  const url = getRequestURL(event);
+  if (!url)
+    return createError({ status: 400, message: "Invalid icon request" });
+  const options = useAppConfig().icon;
+  const collectionName = event.context.params?.collection?.replace(/\.json$/, "");
+  const collection = collectionName ? await collections[collectionName]?.() : null;
+  const apiEndPoint = options.iconifyApiEndpoint || DEFAULT_ENDPOINT;
+  const icons = url.searchParams.get("icons")?.split(",");
+  if (collection) {
+    if (icons?.length) {
+      const data = getIcons(
+        collection,
+        icons
+      );
+      consola$1.debug(`[Icon] serving ${(icons || []).map((i) => "`" + collectionName + ":" + i + "`").join(",")} from bundled collection`);
+      return data;
+    }
+  } else {
+    if (collectionName && !warnOnceSet.has(collectionName) && apiEndPoint === DEFAULT_ENDPOINT) {
+      consola$1.warn([
+        `[Icon] Collection \`${collectionName}\` is not found locally`,
+        `We suggest to install it via \`npm i -D @iconify-json/${collectionName}\` to provide the best end-user experience.`
+      ].join("\n"));
+      warnOnceSet.add(collectionName);
+    }
+  }
+  if (options.fallbackToApi === true || options.fallbackToApi === "server-only") {
+    const apiUrl = new URL("./" + basename(url.pathname) + url.search, apiEndPoint);
+    consola$1.debug(`[Icon] fetching ${(icons || []).map((i) => "`" + collectionName + ":" + i + "`").join(",")} from iconify api`);
+    if (apiUrl.host !== new URL(apiEndPoint).host) {
+      return createError({ status: 400, message: "Invalid icon request" });
+    }
+    try {
+      const data = await $fetch(apiUrl.href);
+      return data;
+    } catch (e) {
+      consola$1.error(e);
+      if (e.status === 404)
+        return createError({ status: 404 });
+      else
+        return createError({ status: 500, message: "Failed to fetch fallback icon" });
+    }
+  }
+  return createError({ status: 404 });
+}, {
+  group: "nuxt",
+  name: "icon",
+  getKey(event) {
+    const collection = event.context.params?.collection?.replace(/\.json$/, "") || "unknown";
+    const icons = String(getQuery$1(event).icons || "");
+    return `${collection}_${icons.split(",")[0]}_${icons.length}_${hash$1(icons)}`;
+  },
+  swr: true,
+  maxAge: 60 * 60 * 24 * 7
+  // 1 week
+});
+
 const VueResolver = (_, value) => {
   return isRef(value) ? toValue(value) : value;
 };
@@ -1187,18 +1647,6 @@ function setSSRError(ssrContext, error) {
   ssrContext.error = true;
   ssrContext.payload = { error };
   ssrContext.url = error.url;
-}
-
-function buildAssetsDir() {
-  return useRuntimeConfig().app.buildAssetsDir;
-}
-function buildAssetsURL(...path) {
-  return joinRelativeURL(publicAssetsURL(), buildAssetsDir(), ...path);
-}
-function publicAssetsURL(...path) {
-  const app = useRuntimeConfig().app;
-  const publicBase = app.cdnURL || app.baseURL;
-  return path.length ? joinRelativeURL(publicBase, ...path) : publicBase;
 }
 
 const APP_ROOT_OPEN_TAG = `<${appRootTag}${propsToString(appRootAttrs)}>`;
@@ -1451,14 +1899,19 @@ async function getIslandContext(event) {
 }
 
 const _lazy_jFVaZF = () => Promise.resolve().then(function () { return index_delete$1; });
-const _lazy_2RDcVB = () => Promise.resolve().then(function () { return index_get$3; });
+const _lazy_2RDcVB = () => Promise.resolve().then(function () { return index_get$7; });
+const _lazy_bV9FL4 = () => Promise.resolve().then(function () { return _id__delete$1; });
+const _lazy_OSe7Am = () => Promise.resolve().then(function () { return _id__put$1; });
+const _lazy_taBOld = () => Promise.resolve().then(function () { return index_get$5; });
+const _lazy_xVzCd5 = () => Promise.resolve().then(function () { return index_post$5; });
 const _lazy_6V72N7 = () => Promise.resolve().then(function () { return deleteAccount_delete$1; });
-const _lazy_FG0uYX = () => Promise.resolve().then(function () { return logout_post$1; });
 const _lazy_fIl2XX = () => Promise.resolve().then(function () { return sendOtp$1; });
 const _lazy_LoLEhR = () => Promise.resolve().then(function () { return session_get$1; });
 const _lazy_txxdjr = () => Promise.resolve().then(function () { return verifyOtp$1; });
 const _lazy_jKxKag = () => Promise.resolve().then(function () { return subcategories$1; });
 const _lazy_3yuKYh = () => Promise.resolve().then(function () { return index$3; });
+const _lazy_2K0cOA = () => Promise.resolve().then(function () { return products_get$1; });
+const _lazy_EP2kpg = () => Promise.resolve().then(function () { return index_get$3; });
 const _lazy_pSoVZL = () => Promise.resolve().then(function () { return bulk_post$1; });
 const _lazy_MyT_yK = () => Promise.resolve().then(function () { return index_post$3; });
 const _lazy_Hb0lav = () => Promise.resolve().then(function () { return _productId__delete$1; });
@@ -1475,13 +1928,18 @@ const _lazy_Ij2dyO = () => Promise.resolve().then(function () { return renderer$
 const handlers = [
   { route: '/api/account', handler: _lazy_jFVaZF, lazy: true, middleware: false, method: "delete" },
   { route: '/api/account', handler: _lazy_2RDcVB, lazy: true, middleware: false, method: "get" },
+  { route: '/api/admin/collections/:id', handler: _lazy_bV9FL4, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/admin/collections/:id', handler: _lazy_OSe7Am, lazy: true, middleware: false, method: "put" },
+  { route: '/api/admin/collections', handler: _lazy_taBOld, lazy: true, middleware: false, method: "get" },
+  { route: '/api/admin/collections', handler: _lazy_xVzCd5, lazy: true, middleware: false, method: "post" },
   { route: '/api/auth/delete-account', handler: _lazy_6V72N7, lazy: true, middleware: false, method: "delete" },
-  { route: '/api/auth/logout', handler: _lazy_FG0uYX, lazy: true, middleware: false, method: "post" },
   { route: '/api/auth/send-otp', handler: _lazy_fIl2XX, lazy: true, middleware: false, method: undefined },
   { route: '/api/auth/session', handler: _lazy_LoLEhR, lazy: true, middleware: false, method: "get" },
   { route: '/api/auth/verify-otp', handler: _lazy_txxdjr, lazy: true, middleware: false, method: undefined },
   { route: '/api/categories/:id/subcategories', handler: _lazy_jKxKag, lazy: true, middleware: false, method: undefined },
   { route: '/api/categories', handler: _lazy_3yuKYh, lazy: true, middleware: false, method: undefined },
+  { route: '/api/collections/:slug/products', handler: _lazy_2K0cOA, lazy: true, middleware: false, method: "get" },
+  { route: '/api/collections', handler: _lazy_EP2kpg, lazy: true, middleware: false, method: "get" },
   { route: '/api/enquiries/bulk', handler: _lazy_pSoVZL, lazy: true, middleware: false, method: "post" },
   { route: '/api/enquiries', handler: _lazy_MyT_yK, lazy: true, middleware: false, method: "post" },
   { route: '/api/favorites/:productId', handler: _lazy_Hb0lav, lazy: true, middleware: false, method: "delete" },
@@ -1494,6 +1952,7 @@ const handlers = [
   { route: '/api/products', handler: _lazy_ZOkWUz, lazy: true, middleware: false, method: undefined },
   { route: '/api/products/supabase', handler: _lazy__ndvis, lazy: true, middleware: false, method: undefined },
   { route: '/__nuxt_error', handler: _lazy_Ij2dyO, lazy: true, middleware: false, method: undefined },
+  { route: '/api/_nuxt_icon/:collection', handler: _ks7MPX, lazy: false, middleware: false, method: undefined },
   { route: '/__nuxt_island/**', handler: _SxA8c9, lazy: false, middleware: false, method: undefined },
   { route: '/**', handler: _lazy_Ij2dyO, lazy: true, middleware: false, method: undefined }
 ];
@@ -1643,82 +2102,6 @@ function useNitroApp() {
 }
 runNitroPlugins(nitroApp$1);
 
-function defineRenderHandler(render) {
-  const runtimeConfig = useRuntimeConfig();
-  return eventHandler(async (event) => {
-    const nitroApp = useNitroApp();
-    const ctx = { event, render, response: void 0 };
-    await nitroApp.hooks.callHook("render:before", ctx);
-    if (!ctx.response) {
-      if (event.path === `${runtimeConfig.app.baseURL}favicon.ico`) {
-        setResponseHeader(event, "Content-Type", "image/x-icon");
-        return send(
-          event,
-          "data:image/gif;base64,R0lGODlhAQABAIAAAAAAAP///yH5BAEAAAAALAAAAAABAAEAAAIBRAA7"
-        );
-      }
-      ctx.response = await ctx.render(event);
-      if (!ctx.response) {
-        const _currentStatus = getResponseStatus(event);
-        setResponseStatus(event, _currentStatus === 200 ? 500 : _currentStatus);
-        return send(
-          event,
-          "No response returned from render handler: " + event.path
-        );
-      }
-    }
-    await nitroApp.hooks.callHook("render:response", ctx.response, ctx);
-    if (ctx.response.headers) {
-      setResponseHeaders(event, ctx.response.headers);
-    }
-    if (ctx.response.statusCode || ctx.response.statusMessage) {
-      setResponseStatus(
-        event,
-        ctx.response.statusCode,
-        ctx.response.statusMessage
-      );
-    }
-    return ctx.response.body;
-  });
-}
-
-const scheduledTasks = false;
-
-const tasks = {
-  
-};
-
-const __runningTasks__ = {};
-async function runTask(name, {
-  payload = {},
-  context = {}
-} = {}) {
-  if (__runningTasks__[name]) {
-    return __runningTasks__[name];
-  }
-  if (!(name in tasks)) {
-    throw createError({
-      message: `Task \`${name}\` is not available!`,
-      statusCode: 404
-    });
-  }
-  if (!tasks[name].resolve) {
-    throw createError({
-      message: `Task \`${name}\` is not implemented!`,
-      statusCode: 501
-    });
-  }
-  const handler = await tasks[name].resolve();
-  const taskEvent = { name, payload, context };
-  __runningTasks__[name] = handler.run(taskEvent);
-  try {
-    const res = await __runningTasks__[name];
-    return res;
-  } finally {
-    delete __runningTasks__[name];
-  }
-}
-
 if (!globalThis.crypto) {
   globalThis.crypto = nodeCrypto;
 }
@@ -1830,28 +2213,6 @@ const styles$1 = /*#__PURE__*/Object.freeze({
   default: styles
 });
 
-const verifyAuthToken = (event) => {
-  const config = useRuntimeConfig();
-  const token = getCookie(event, "auth_token");
-  if (!token) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-      message: "Missing authentication token"
-    });
-  }
-  try {
-    const decoded = jwt.verify(token, config.jwtSecret);
-    return decoded;
-  } catch (error) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized",
-      message: "Invalid authentication token"
-    });
-  }
-};
-
 const index_delete = defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
@@ -1874,7 +2235,7 @@ const index_delete$1 = /*#__PURE__*/Object.freeze({
   default: index_delete
 });
 
-const index_get$2 = defineEventHandler(async (event) => {
+const index_get$6 = defineEventHandler(async (event) => {
   const config = useRuntimeConfig();
   const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
   const { userId } = verifyAuthToken(event);
@@ -1895,37 +2256,417 @@ const index_get$2 = defineEventHandler(async (event) => {
   };
 });
 
-const index_get$3 = /*#__PURE__*/Object.freeze({
+const index_get$7 = /*#__PURE__*/Object.freeze({
   __proto__: null,
-  default: index_get$2
+  default: index_get$6
 });
 
-const serverSupabaseClient = (event) => {
-  const config = useRuntimeConfig();
-  let cookies = {};
-  const cookieHeader = getHeader(event, "cookie");
-  if (cookieHeader) {
-    cookies = parseCookies(event);
+const supabase$7 = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+async function verifyAdminAuth$3(event) {
+  const validation = await validateSession(event);
+  if (!validation.success || !validation.user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Authentication required"
+    });
   }
-  const supabase = createServerClient(
-    config.public.supabaseUrl,
-    config.public.supabaseAnonKey,
-    {
-      cookies: {
-        get(key) {
-          return cookies[key];
-        },
-        set(key, value, options) {
-          setCookie(event, key, value, options);
-        },
-        remove(key, options) {
-          setCookie(event, key, "", { ...options, maxAge: -1 });
+  if (validation.user.role !== "admin") {
+    throw createError({
+      statusCode: 403,
+      statusMessage: "Admin access required"
+    });
+  }
+  return validation.user;
+}
+const _id__delete = defineEventHandler(async (event) => {
+  try {
+    await verifyAdminAuth$3(event);
+    const collectionId = getRouterParam(event, "id");
+    if (!collectionId) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Collection ID is required"
+      });
+    }
+    const { data: existingCollection, error: fetchError } = await supabase$7.from("collections").select("id, name").eq("id", collectionId).single();
+    if (fetchError || !existingCollection) {
+      throw createError({
+        statusCode: 404,
+        statusMessage: "Collection not found"
+      });
+    }
+    const { error: analyticsError } = await supabase$7.from("collection_analytics").delete().eq("collection_id", collectionId);
+    if (analyticsError) {
+      console.warn("Failed to delete collection analytics:", analyticsError);
+    }
+    const { error: deleteError } = await supabase$7.from("collections").delete().eq("id", collectionId);
+    if (deleteError) {
+      console.error("Database delete error:", deleteError);
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Failed to delete collection"
+      });
+    }
+    return {
+      success: true,
+      message: `Collection "${existingCollection.name}" deleted successfully`
+    };
+  } catch (error) {
+    console.error("Delete collection error:", error);
+    throw createError({
+      statusCode: error.statusCode || 500,
+      statusMessage: error.statusMessage || "Failed to delete collection"
+    });
+  }
+});
+
+const _id__delete$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__delete
+});
+
+const supabase$6 = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+async function verifyAdminAuth$2(event) {
+  const validation = await validateSession(event);
+  if (!validation.success || !validation.user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Authentication required"
+    });
+  }
+  if (validation.user.role !== "admin") {
+    throw createError({
+      statusCode: 403,
+      statusMessage: "Admin access required"
+    });
+  }
+  return validation.user;
+}
+const _id__put = defineEventHandler(async (event) => {
+  try {
+    await verifyAdminAuth$2(event);
+    const collectionId = getRouterParam(event, "id");
+    if (!collectionId) {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Collection ID is required"
+      });
+    }
+    const body = await readBody(event);
+    if (!body.name && body.name !== "") {
+      throw createError({
+        statusCode: 400,
+        statusMessage: "Collection name is required"
+      });
+    }
+    const updateData = {
+      updated_at: (/* @__PURE__ */ new Date()).toISOString()
+    };
+    if (body.name !== void 0) updateData.name = body.name;
+    if (body.description !== void 0) updateData.description = body.description;
+    if (body.banner_image !== void 0) updateData.banner_image = body.banner_image;
+    if (body.banner_alt !== void 0) updateData.banner_alt = body.banner_alt;
+    if (body.tag_filters !== void 0) updateData.tag_filters = body.tag_filters;
+    if (body.tag_match_mode !== void 0) updateData.tag_match_mode = body.tag_match_mode;
+    if (body.min_price !== void 0) updateData.min_price = body.min_price;
+    if (body.max_price !== void 0) updateData.max_price = body.max_price;
+    if (body.start_date !== void 0) updateData.start_date = body.start_date || null;
+    if (body.end_date !== void 0) updateData.end_date = body.end_date || null;
+    if (body.is_active !== void 0) updateData.is_active = body.is_active;
+    if (body.is_featured !== void 0) updateData.is_featured = body.is_featured;
+    if (body.display_order !== void 0) updateData.display_order = body.display_order;
+    if (body.name) {
+      updateData.slug = body.name.toLowerCase().replace(/[^a-z0-9]+/g, "-").replace(/^-+|-+$/g, "");
+    }
+    const { data: collection, error: updateError } = await supabase$6.from("collections").update(updateData).eq("id", collectionId).select("*").single();
+    if (updateError) {
+      console.error("Database update error:", updateError);
+      throw createError({
+        statusCode: 500,
+        statusMessage: "Failed to update collection"
+      });
+    }
+    if (body.tag_filters !== void 0 || body.tag_match_mode !== void 0 || body.min_price !== void 0 || body.max_price !== void 0) {
+      try {
+        const { error: functionError } = await supabase$6.rpc("update_collection_product_count", {
+          collection_id: collectionId
+        });
+        if (functionError) {
+          console.warn("Failed to update product count:", functionError);
+        }
+      } catch (err) {
+        console.warn("Product count update failed:", err);
+      }
+    }
+    return {
+      success: true,
+      data: {
+        collection
+      },
+      message: "Collection updated successfully"
+    };
+  } catch (error) {
+    console.error("Update collection error:", error);
+    throw createError({
+      statusCode: error.statusCode || 500,
+      statusMessage: error.statusMessage || "Failed to update collection"
+    });
+  }
+});
+
+const _id__put$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: _id__put
+});
+
+const supabase$5 = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+async function verifyAdminAuth$1(event) {
+  const validation = await validateSession(event);
+  if (!validation.success || !validation.user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Authentication required"
+    });
+  }
+  if (validation.user.role !== "admin") {
+    throw createError({
+      statusCode: 403,
+      statusMessage: "Admin access required"
+    });
+  }
+  return validation.user;
+}
+const index_get$4 = defineEventHandler(async (event) => {
+  try {
+    await verifyAdminAuth$1(event);
+    const query = getQuery$1(event);
+    const {
+      include_inactive = "false",
+      include_analytics = "false",
+      limit = "50",
+      offset = "0"
+    } = query;
+    let queryBuilder = supabase$5.from("collections").select(`
+        id,
+        name,
+        slug,
+        description,
+        banner_image,
+        banner_alt,
+        meta_title,
+        meta_description,
+        is_active,
+        is_featured,
+        display_order,
+        tag_filters,
+        tag_match_mode,
+        min_price,
+        max_price,
+        start_date,
+        end_date,
+        view_count,
+        product_count,
+        created_at,
+        updated_at
+      `);
+    if (include_inactive === "false") {
+      queryBuilder = queryBuilder.eq("is_active", true);
+    }
+    queryBuilder = queryBuilder.order("display_order", { ascending: true }).order("created_at", { ascending: false }).range(parseInt(offset), parseInt(offset) + parseInt(limit) - 1);
+    const { data: collections, error } = await queryBuilder;
+    if (error) {
+      throw error;
+    }
+    let analytics = null;
+    if (include_analytics === "true" && collections) {
+      const collectionIds = collections.map((c) => c.id);
+      if (collectionIds.length > 0) {
+        const { data: analyticsData, error: analyticsError } = await supabase$5.from("collection_analytics").select(`
+            collection_id,
+            date,
+            views,
+            unique_views,
+            product_clicks,
+            favorites_added
+          `).in("collection_id", collectionIds).gte("date", new Date(Date.now() - 30 * 24 * 60 * 60 * 1e3).toISOString().split("T")[0]).order("date", { ascending: false });
+        if (!analyticsError) {
+          analytics = analyticsData;
         }
       }
     }
-  );
-  return supabase;
-};
+    const { count: totalCount, error: countError } = await supabase$5.from("collections").select("*", { count: "exact", head: true });
+    if (countError) {
+      console.error("Count error:", countError);
+    }
+    return {
+      success: true,
+      data: {
+        collections: collections || [],
+        analytics,
+        pagination: {
+          total: totalCount || 0,
+          limit: parseInt(limit),
+          offset: parseInt(offset),
+          has_more: ((collections == null ? void 0 : collections.length) || 0) === parseInt(limit)
+        }
+      }
+    };
+  } catch (error) {
+    console.error("Admin collections fetch error:", error);
+    throw createError({
+      statusCode: 500,
+      statusMessage: error.message || "Failed to fetch collections"
+    });
+  }
+});
+
+const index_get$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get$4
+});
+
+const supabase$4 = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_SERVICE_ROLE_KEY
+);
+async function verifyAdminAuth(event) {
+  const validation = await validateSession(event);
+  if (!validation.success || !validation.user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Authentication required"
+    });
+  }
+  if (validation.user.role !== "admin") {
+    throw createError({
+      statusCode: 403,
+      statusMessage: "Admin access required"
+    });
+  }
+  return validation.user;
+}
+function generateSlug(name) {
+  return name.toLowerCase().trim().replace(/[^\w\s-]/g, "").replace(/[\s_-]+/g, "-").replace(/^-+|-+$/g, "");
+}
+const index_post$4 = defineEventHandler(async (event) => {
+  try {
+    await verifyAdminAuth(event);
+    const body = await readBody(event);
+    const {
+      name,
+      description,
+      banner_image,
+      banner_alt,
+      meta_title,
+      meta_description,
+      is_active = true,
+      is_featured = false,
+      display_order = 0,
+      tag_filters = [],
+      tag_match_mode = "ANY",
+      min_price,
+      max_price,
+      start_date,
+      end_date
+    } = body;
+    if (!name || !name.trim()) {
+      throw new Error("Collection name is required");
+    }
+    if (!banner_image || !banner_image.trim()) {
+      throw new Error("Banner image is required");
+    }
+    if (!Array.isArray(tag_filters) || tag_filters.length === 0) {
+      throw new Error("At least one tag filter is required");
+    }
+    if (!["ANY", "ALL"].includes(tag_match_mode)) {
+      throw new Error("Tag match mode must be either ANY or ALL");
+    }
+    if (min_price && max_price && parseFloat(min_price) > parseFloat(max_price)) {
+      throw new Error("Minimum price cannot be greater than maximum price");
+    }
+    if (start_date && end_date && new Date(start_date) > new Date(end_date)) {
+      throw new Error("Start date cannot be after end date");
+    }
+    let slug = generateSlug(name);
+    let slugCounter = 0;
+    let finalSlug = slug;
+    while (true) {
+      const { data: existingCollection } = await supabase$4.from("collections").select("id").eq("slug", finalSlug).single();
+      if (!existingCollection) break;
+      slugCounter++;
+      finalSlug = `${slug}-${slugCounter}`;
+    }
+    const { data: existingTags, error: tagsError } = await supabase$4.from("product_tags").select("name").in("name", tag_filters).eq("is_active", true);
+    if (tagsError) {
+      throw new Error("Failed to verify tag filters");
+    }
+    const existingTagNames = (existingTags == null ? void 0 : existingTags.map((t) => t.name)) || [];
+    const missingTags = tag_filters.filter((tag) => !existingTagNames.includes(tag));
+    if (missingTags.length > 0) {
+      throw new Error(`The following tags do not exist or are inactive: ${missingTags.join(", ")}`);
+    }
+    const collectionData = {
+      name: name.trim(),
+      slug: finalSlug,
+      description: (description == null ? void 0 : description.trim()) || null,
+      banner_image: banner_image.trim(),
+      banner_alt: (banner_alt == null ? void 0 : banner_alt.trim()) || null,
+      meta_title: (meta_title == null ? void 0 : meta_title.trim()) || null,
+      meta_description: (meta_description == null ? void 0 : meta_description.trim()) || null,
+      is_active,
+      is_featured,
+      display_order: parseInt(display_order) || 0,
+      tag_filters,
+      tag_match_mode,
+      min_price: min_price ? parseFloat(min_price) : null,
+      max_price: max_price ? parseFloat(max_price) : null,
+      start_date: start_date ? new Date(start_date).toISOString() : null,
+      end_date: end_date ? new Date(end_date).toISOString() : null,
+      view_count: 0,
+      product_count: 0
+    };
+    const { data: collection, error } = await supabase$4.from("collections").insert(collectionData).select().single();
+    if (error) {
+      throw error;
+    }
+    try {
+      const { data: productCount } = await supabase$4.rpc("get_collection_product_count", { collection_id: collection.id });
+      if (productCount !== null) {
+        await supabase$4.from("collections").update({ product_count: productCount }).eq("id", collection.id);
+        collection.product_count = productCount;
+      }
+    } catch (countError) {
+      console.error("Failed to calculate initial product count:", countError);
+    }
+    return {
+      success: true,
+      data: {
+        collection,
+        message: "Collection created successfully"
+      }
+    };
+  } catch (error) {
+    console.error("Create collection error:", error);
+    throw createError({
+      statusCode: error.message.includes("Authentication") || error.message.includes("Admin") ? 401 : 400,
+      statusMessage: error.message || "Failed to create collection"
+    });
+  }
+});
+
+const index_post$5 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$4
+});
 
 const deleteAccount_delete = defineEventHandler(async (event) => {
   try {
@@ -1980,50 +2721,6 @@ async function deleteUserDataManually(client, userId) {
 const deleteAccount_delete$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: deleteAccount_delete
-});
-
-const logout_post = defineEventHandler(async (event) => {
-  try {
-    const config = useRuntimeConfig();
-    const sessionToken = getCookie(event, "session_token");
-    if (sessionToken) {
-      const supabaseUrl = config.public.supabaseUrl || process.env.SUPABASE_URL || "";
-      const supabaseKey = config.public.supabaseAnonKey || process.env.SUPABASE_ANON_KEY || "";
-      if (supabaseUrl && supabaseKey) {
-        const supabase = createClient(supabaseUrl, supabaseKey);
-        await supabase.from("user_sessions").update({ is_active: false }).eq("session_token", sessionToken);
-      }
-    }
-    setCookie(event, "session_token", "", {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 0,
-      path: "/"
-    });
-    return {
-      success: true,
-      message: "Logged out successfully"
-    };
-  } catch (error) {
-    console.error("Logout error:", error);
-    setCookie(event, "session_token", "", {
-      httpOnly: true,
-      secure: false,
-      sameSite: "lax",
-      maxAge: 0,
-      path: "/"
-    });
-    return {
-      success: true,
-      message: "Logged out successfully"
-    };
-  }
-});
-
-const logout_post$1 = /*#__PURE__*/Object.freeze({
-  __proto__: null,
-  default: logout_post
 });
 
 function validatePhoneNumber(phoneNumber, countryCode) {
@@ -2262,64 +2959,6 @@ const sendOtp$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: sendOtp
 });
-
-async function validateSession(event) {
-  try {
-    const config = useRuntimeConfig();
-    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
-    const sessionToken = getCookie(event, "session_token");
-    if (!sessionToken) {
-      return { success: false };
-    }
-    const { data: session, error: sessionError } = await supabase.from("user_sessions").select("user_id, expires_at, is_active").eq("session_token", sessionToken).eq("is_active", true).single();
-    if (sessionError || !session) {
-      console.log("\u274C Session validation failed:", {
-        sessionError: sessionError == null ? void 0 : sessionError.message,
-        hasSession: !!session
-      });
-      return { success: false };
-    }
-    const now = /* @__PURE__ */ new Date();
-    const expiresAt = new Date(session.expires_at);
-    if (expiresAt < now) {
-      console.log("\u274C Session expired:", {
-        now: now.toISOString(),
-        expiresAt: expiresAt.toISOString()
-      });
-      return { success: false };
-    }
-    const { data: user, error: userError } = await supabase.from("users").select("id, first_name, last_name, mobile_number, email, is_active, role").eq("id", session.user_id).single();
-    if (userError || !user) {
-      console.log("\u274C User lookup failed:", userError == null ? void 0 : userError.message);
-      return { success: false };
-    }
-    if (!user.is_active) {
-      console.log("\u274C User account is inactive");
-      return { success: false };
-    }
-    return {
-      success: true,
-      userId: user.id,
-      user
-    };
-  } catch (error) {
-    console.error("\u274C Session validation error:", error);
-    return { success: false };
-  }
-}
-async function requireAuth(event) {
-  const validation = await validateSession(event);
-  if (!validation.success || !validation.userId || !validation.user) {
-    throw createError({
-      statusCode: 401,
-      statusMessage: "Unauthorized - Authentication required"
-    });
-  }
-  return {
-    userId: validation.userId,
-    user: validation.user
-  };
-}
 
 const session_get = defineEventHandler(async (event) => {
   try {
@@ -2731,6 +3370,310 @@ const index$2 = defineEventHandler(async (event) => {
 const index$3 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: index$2
+});
+
+const supabase$3 = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
+const products_get = defineEventHandler(async (event) => {
+  try {
+    const slug = getRouterParam(event, "slug");
+    const query = getQuery$1(event);
+    const {
+      limit = "20",
+      offset = "0",
+      sort_by = "created_at",
+      sort_order = "desc",
+      min_price,
+      max_price,
+      search
+    } = query;
+    if (!slug) {
+      throw new Error("Collection slug is required");
+    }
+    const { data: collection, error: collectionError } = await supabase$3.from("collections").select(`
+        id,
+        name,
+        slug,
+        description,
+        banner_image,
+        banner_alt,
+        tag_filters,
+        tag_match_mode,
+        min_price,
+        max_price,
+        start_date,
+        end_date,
+        view_count,
+        product_count
+      `).eq("slug", slug).eq("is_active", true).single();
+    if (collectionError || !collection) {
+      throw new Error(`Collection '${slug}' not found or inactive`);
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    if (collection.start_date && collection.start_date > now) {
+      throw new Error("Collection is not yet active");
+    }
+    if (collection.end_date && collection.end_date < now) {
+      throw new Error("Collection has expired");
+    }
+    let productQuery = `
+      SELECT DISTINCT
+        p.id,
+        p.name,
+        p.sku,
+        p.description,
+        p.price,
+        p.sale_price,
+        p.stock_quantity,
+        p.karat,
+        p.weight,
+        p.tags,
+        p.is_published,
+        p.subcategory_id,
+        p.created_at,
+        p.updated_at,
+        -- Get the first product image
+        (
+          SELECT json_build_object(
+            'id', pi.id,
+            'url', pi.url,
+            'public_id', pi.public_id
+          )
+          FROM product_images pi 
+          WHERE pi.product_id = p.id 
+          ORDER BY pi.created_at ASC 
+          LIMIT 1
+        ) as primary_image,
+        -- Get all product tags as array
+        COALESCE(
+          ARRAY_AGG(DISTINCT pt.name) FILTER (WHERE pt.name IS NOT NULL),
+          ARRAY[]::text[]
+        ) as product_tags,
+        -- Get subcategory info
+        (
+          SELECT json_build_object(
+            'id', s.id,
+            'name', s.name,
+            'category_id', s.category_id
+          )
+          FROM subcategories s 
+          WHERE s.id = p.subcategory_id
+        ) as subcategory
+      FROM products p
+      LEFT JOIN product_tag_mappings ptm ON p.id::text = ptm.product_id
+      LEFT JOIN product_tags pt ON ptm.tag_id = pt.id AND pt.is_active = true
+      WHERE p.is_published = true
+    `;
+    const queryParams = [];
+    let paramCount = 0;
+    if (collection.tag_filters && collection.tag_filters.length > 0) {
+      paramCount++;
+      if (collection.tag_match_mode === "ALL") {
+        productQuery += ` AND EXISTS (
+          SELECT 1 FROM product_tag_mappings ptm2
+          JOIN product_tags pt2 ON ptm2.tag_id = pt2.id
+          WHERE ptm2.product_id = p.id::text
+          AND pt2.name = ANY($${paramCount})
+          GROUP BY ptm2.product_id
+          HAVING COUNT(DISTINCT pt2.name) >= $${paramCount + 1}
+        )`;
+        queryParams.push(collection.tag_filters, collection.tag_filters.length);
+        paramCount++;
+      } else {
+        productQuery += ` AND EXISTS (
+          SELECT 1 FROM product_tag_mappings ptm2
+          JOIN product_tags pt2 ON ptm2.tag_id = pt2.id
+          WHERE ptm2.product_id = p.id::text
+          AND pt2.name = ANY($${paramCount})
+        )`;
+        queryParams.push(collection.tag_filters);
+      }
+    }
+    if (collection.min_price) {
+      paramCount++;
+      productQuery += ` AND p.price >= $${paramCount}`;
+      queryParams.push(collection.min_price);
+    }
+    if (collection.max_price) {
+      paramCount++;
+      productQuery += ` AND p.price <= $${paramCount}`;
+      queryParams.push(collection.max_price);
+    }
+    if (min_price) {
+      paramCount++;
+      productQuery += ` AND p.price >= $${paramCount}`;
+      queryParams.push(parseFloat(min_price));
+    }
+    if (max_price) {
+      paramCount++;
+      productQuery += ` AND p.price <= $${paramCount}`;
+      queryParams.push(parseFloat(max_price));
+    }
+    if (search) {
+      paramCount++;
+      productQuery += ` AND (
+        p.name ILIKE $${paramCount} OR 
+        p.description ILIKE $${paramCount} OR
+        p.sku ILIKE $${paramCount}
+      )`;
+      queryParams.push(`%${search}%`);
+    }
+    productQuery += `
+      GROUP BY p.id, p.name, p.sku, p.description, p.price, p.sale_price, 
+               p.stock_quantity, p.karat, p.weight, p.tags, p.is_published, 
+               p.subcategory_id, p.created_at, p.updated_at
+      ORDER BY p.${sort_by} ${sort_order.toUpperCase()}
+    `;
+    paramCount++;
+    productQuery += ` LIMIT $${paramCount}`;
+    queryParams.push(parseInt(limit));
+    paramCount++;
+    productQuery += ` OFFSET $${paramCount}`;
+    queryParams.push(parseInt(offset));
+    const { data: products, error: productsError } = await supabase$3.rpc("execute_sql", {
+      sql: productQuery,
+      params: queryParams
+    });
+    if (productsError) {
+      console.error("Products query error:", productsError);
+      const { data: fallbackProducts, error: fallbackError } = await supabase$3.from("products").select(`
+          *,
+          product_images!inner (id, url, public_id),
+          subcategories!inner (id, name, category_id)
+        `).eq("is_published", true).range(parseInt(offset), parseInt(offset) + parseInt(limit) - 1).order(sort_by, { ascending: sort_order === "asc" });
+      if (fallbackError) throw fallbackError;
+      return {
+        success: true,
+        data: {
+          collection,
+          products: fallbackProducts || [],
+          total: (fallbackProducts == null ? void 0 : fallbackProducts.length) || 0,
+          has_more: ((fallbackProducts == null ? void 0 : fallbackProducts.length) || 0) === parseInt(limit),
+          query_type: "fallback"
+        }
+      };
+    }
+    supabase$3.from("collections").update({
+      view_count: (collection.view_count || 0) + 1,
+      updated_at: (/* @__PURE__ */ new Date()).toISOString()
+    }).eq("id", collection.id).then(() => {
+    }).catch((err) => console.error("Failed to update view count:", err));
+    return {
+      success: true,
+      data: {
+        collection,
+        products: products || [],
+        total: (products == null ? void 0 : products.length) || 0,
+        has_more: ((products == null ? void 0 : products.length) || 0) === parseInt(limit),
+        query_type: "optimized",
+        filters: {
+          tag_filters: collection.tag_filters,
+          tag_match_mode: collection.tag_match_mode,
+          min_price: collection.min_price,
+          max_price: collection.max_price,
+          applied_filters: {
+            min_price: min_price ? parseFloat(min_price) : null,
+            max_price: max_price ? parseFloat(max_price) : null,
+            search: search || null
+          }
+        }
+      }
+    };
+  } catch (error) {
+    console.error("Collection products fetch error:", error);
+    return {
+      success: false,
+      error: {
+        message: "Failed to fetch collection products",
+        details: error.message
+      }
+    };
+  }
+});
+
+const products_get$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: products_get
+});
+
+const supabase$2 = createClient(
+  process.env.SUPABASE_URL,
+  process.env.SUPABASE_ANON_KEY
+);
+const index_get$2 = defineEventHandler(async (event) => {
+  try {
+    const query = getQuery$1(event);
+    const {
+      featured_only = "false",
+      include_counts = "true",
+      limit = "50",
+      offset = "0"
+    } = query;
+    let queryBuilder = supabase$2.from("collections").select(`
+        id,
+        name,
+        slug,
+        description,
+        banner_image,
+        banner_alt,
+        meta_title,
+        meta_description,
+        is_featured,
+        display_order,
+        tag_filters,
+        tag_match_mode,
+        min_price,
+        max_price,
+        start_date,
+        end_date,
+        view_count,
+        product_count,
+        created_at,
+        updated_at
+      `).eq("is_active", true).order("display_order", { ascending: true }).order("created_at", { ascending: false });
+    if (featured_only === "true") {
+      queryBuilder = queryBuilder.eq("is_featured", true);
+    }
+    queryBuilder = queryBuilder.range(parseInt(offset), parseInt(offset) + parseInt(limit) - 1);
+    const { data: collections, error } = await queryBuilder;
+    if (error) {
+      throw error;
+    }
+    const now = (/* @__PURE__ */ new Date()).toISOString();
+    const activeCollections = (collections == null ? void 0 : collections.filter((collection) => {
+      const startOk = !collection.start_date || collection.start_date <= now;
+      const endOk = !collection.end_date || collection.end_date >= now;
+      return startOk && endOk;
+    })) || [];
+    if (include_counts === "true") {
+      for (const collection of activeCollections) {
+      }
+    }
+    return {
+      success: true,
+      data: {
+        collections: activeCollections,
+        total: activeCollections.length,
+        has_more: activeCollections.length === parseInt(limit)
+      }
+    };
+  } catch (error) {
+    console.error("Collections fetch error:", error);
+    return {
+      success: false,
+      error: {
+        message: "Failed to fetch collections",
+        details: error.message
+      }
+    };
+  }
+});
+
+const index_get$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get$2
 });
 
 const bulk_post = defineEventHandler(async (event) => {

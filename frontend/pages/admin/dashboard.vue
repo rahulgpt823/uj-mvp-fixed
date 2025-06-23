@@ -31,6 +31,10 @@
             <span class="material-icons">inventory_2</span>
             Manage Products
           </NuxtLink>
+          <NuxtLink to="/admin/collections" class="action-btn">
+            <span class="material-icons">collections</span>
+            Manage Collections
+          </NuxtLink>
           <NuxtLink to="/admin/orders" class="action-btn">
             <span class="material-icons">shopping_cart</span>
             View Orders

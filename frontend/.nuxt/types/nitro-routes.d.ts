@@ -7,11 +7,16 @@ declare module "nitropack/types" {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/account/index.delete').default>>>>
       'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/account/index.get').default>>>>
     }
+    '/api/admin/collections/:id': {
+      'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/admin/collections/[id].delete').default>>>>
+      'put': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/admin/collections/[id].put').default>>>>
+    }
+    '/api/admin/collections': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/admin/collections/index.get').default>>>>
+      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/admin/collections/index.post').default>>>>
+    }
     '/api/auth/delete-account': {
       'delete': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/delete-account.delete').default>>>>
-    }
-    '/api/auth/logout': {
-      'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/logout.post').default>>>>
     }
     '/api/auth/send-otp': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/auth/send-otp').default>>>>
@@ -27,6 +32,12 @@ declare module "nitropack/types" {
     }
     '/api/categories': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/categories/index').default>>>>
+    }
+    '/api/collections/:slug/products': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/collections/[slug]/products.get').default>>>>
+    }
+    '/api/collections': {
+      'get': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/collections/index.get').default>>>>
     }
     '/api/enquiries/bulk': {
       'post': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/api/enquiries/bulk.post').default>>>>
@@ -61,6 +72,9 @@ declare module "nitropack/types" {
     }
     '/__nuxt_error': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/nuxt/dist/core/runtime/nitro/handlers/renderer').default>>>>
+    }
+    '/api/_nuxt_icon/:collection': {
+      'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../node_modules/@nuxt/icon/dist/runtime/server/api').default>>>>
     }
     '/__nuxt_island/**': {
       'default': Simplify<Serialize<Awaited<ReturnType<typeof import('../../server/#internal/nuxt/island-renderer').default>>>>
