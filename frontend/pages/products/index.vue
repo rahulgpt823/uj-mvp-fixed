@@ -176,6 +176,7 @@
           :key="product.id"
           :product="product"
           @click="goToProduct(product.id)"
+          @quickView="openQuickView(product)"
         />
       </div>
 
@@ -186,9 +187,18 @@
           :key="product.id"
           :product="product"
           @click="goToProduct(product.id)"
+          @quickView="openQuickView(product)"
         />
       </div>
     </section>
+
+    <!-- Quick View Modal -->
+    <ProductQuickViewModal
+      :is-open="showQuickViewModal"
+      :product="selectedProduct"
+      @close="closeQuickView"
+      @viewProduct="handleViewProduct"
+    />
   </div>
 </template>
 
@@ -196,6 +206,7 @@
 import { ref, computed, onMounted, watch } from 'vue'
 import { useProducts } from '~/composables/useProducts'
 import type { Product } from '~/types/product'
+import ProductQuickViewModal from '~/components/ProductQuickViewModal.vue'
 
 // Meta
 definePageMeta({
@@ -213,6 +224,8 @@ const selectedCategory = ref('')
 const selectedPriceRange = ref('')
 const sortBy = ref('newest')
 const viewMode = ref('grid')
+const showQuickViewModal = ref(false)
+const selectedProduct = ref<Product | null>(null)
 
 // Computed properties
 const availableCategories = computed(() => {
@@ -313,6 +326,20 @@ const clearFilters = () => {
 }
 
 const goToProduct = (productId: number) => {
+  router.push(`/products/${productId}`)
+}
+
+const openQuickView = (product: Product) => {
+  selectedProduct.value = product
+  showQuickViewModal.value = true
+}
+
+const closeQuickView = () => {
+  showQuickViewModal.value = false
+  selectedProduct.value = null
+}
+
+const handleViewProduct = (productId: string | number) => {
   router.push(`/products/${productId}`)
 }
 

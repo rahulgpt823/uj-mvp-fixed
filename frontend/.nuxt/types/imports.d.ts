@@ -243,6 +243,7 @@ declare global {
   const useEventSource: typeof import('../../node_modules/@vueuse/core')['useEventSource']
   const useEyeDropper: typeof import('../../node_modules/@vueuse/core')['useEyeDropper']
   const useFavicon: typeof import('../../node_modules/@vueuse/core')['useFavicon']
+  const useFavorites: typeof import('../../composables/useFavorites')['useFavorites']
   const useFavoritesStore: typeof import('../../stores/favorites')['useFavoritesStore']
   const useFetch: typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useFetch']
   const useFileDialog: typeof import('../../node_modules/@vueuse/core')['useFileDialog']
@@ -689,6 +690,7 @@ declare module 'vue' {
     readonly useEventSource: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useEventSource']>
     readonly useEyeDropper: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useEyeDropper']>
     readonly useFavicon: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useFavicon']>
+    readonly useFavorites: UnwrapRef<typeof import('../../composables/useFavorites')['useFavorites']>
     readonly useFavoritesStore: UnwrapRef<typeof import('../../stores/favorites')['useFavoritesStore']>
     readonly useFetch: UnwrapRef<typeof import('../../node_modules/nuxt/dist/app/composables/fetch')['useFetch']>
     readonly useFileDialog: UnwrapRef<typeof import('../../node_modules/@vueuse/core')['useFileDialog']>

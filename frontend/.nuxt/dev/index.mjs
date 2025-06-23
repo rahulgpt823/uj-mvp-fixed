@@ -3,11 +3,12 @@ import { Server } from 'node:http';
 import { resolve, dirname, join } from 'node:path';
 import nodeCrypto, { randomBytes } from 'node:crypto';
 import { parentPort, threadId } from 'node:worker_threads';
-import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, getRequestURL, getResponseHeader, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, createError, getRouterParam, getHeader, parseCookies, setCookie, getCookie, getResponseStatusText } from 'file://C:/repos/uj-mvp/frontend/node_modules/h3/dist/index.mjs';
+import { defineEventHandler, handleCacheHeaders, splitCookiesString, createEvent, fetchWithEvent, isEvent, eventHandler, setHeaders, sendRedirect, proxyRequest, getRequestHeader, setResponseHeaders, setResponseStatus, send, getRequestHeaders, setResponseHeader, getRequestURL, getResponseHeader, getQuery as getQuery$1, readBody, createApp, createRouter as createRouter$1, toNodeListener, lazyEventHandler, getResponseStatus, createError, getRouterParam, getCookie, getHeader, parseCookies, setCookie, getResponseStatusText } from 'file://C:/repos/uj-mvp/frontend/node_modules/h3/dist/index.mjs';
 import { escapeHtml } from 'file://C:/repos/uj-mvp/frontend/node_modules/@vue/shared/dist/shared.cjs.js';
 import { createClient } from 'file://C:/repos/uj-mvp/frontend/node_modules/@supabase/supabase-js/dist/main/index.js';
 import { parsePhoneNumber, isValidPhoneNumber } from 'file://C:/repos/uj-mvp/frontend/node_modules/libphonenumber-js/index.js';
 import { createServerClient } from 'file://C:/repos/uj-mvp/frontend/node_modules/@supabase/ssr/dist/main/index.js';
+import jwt from 'file://C:/repos/uj-mvp/frontend/node_modules/jsonwebtoken/index.js';
 import { v2 } from 'file://C:/repos/uj-mvp/frontend/node_modules/cloudinary/cloudinary.js';
 import { PrismaClient } from 'file://C:/repos/uj-mvp/frontend/node_modules/@prisma/client/default.js';
 import { AsyncLocalStorage } from 'node:async_hooks';
@@ -1449,6 +1450,8 @@ async function getIslandContext(event) {
   return ctx;
 }
 
+const _lazy_jFVaZF = () => Promise.resolve().then(function () { return index_delete$1; });
+const _lazy_2RDcVB = () => Promise.resolve().then(function () { return index_get$3; });
 const _lazy_6V72N7 = () => Promise.resolve().then(function () { return deleteAccount_delete$1; });
 const _lazy_FG0uYX = () => Promise.resolve().then(function () { return logout_post$1; });
 const _lazy_fIl2XX = () => Promise.resolve().then(function () { return sendOtp$1; });
@@ -1457,6 +1460,7 @@ const _lazy_txxdjr = () => Promise.resolve().then(function () { return verifyOtp
 const _lazy_jKxKag = () => Promise.resolve().then(function () { return subcategories$1; });
 const _lazy_3yuKYh = () => Promise.resolve().then(function () { return index$3; });
 const _lazy_pSoVZL = () => Promise.resolve().then(function () { return bulk_post$1; });
+const _lazy_MyT_yK = () => Promise.resolve().then(function () { return index_post$3; });
 const _lazy_Hb0lav = () => Promise.resolve().then(function () { return _productId__delete$1; });
 const _lazy_1CuFt4 = () => Promise.resolve().then(function () { return clear_delete$1; });
 const _lazy_SMNOSh = () => Promise.resolve().then(function () { return index_get$1; });
@@ -1469,6 +1473,8 @@ const _lazy__ndvis = () => Promise.resolve().then(function () { return supabase$
 const _lazy_Ij2dyO = () => Promise.resolve().then(function () { return renderer$1; });
 
 const handlers = [
+  { route: '/api/account', handler: _lazy_jFVaZF, lazy: true, middleware: false, method: "delete" },
+  { route: '/api/account', handler: _lazy_2RDcVB, lazy: true, middleware: false, method: "get" },
   { route: '/api/auth/delete-account', handler: _lazy_6V72N7, lazy: true, middleware: false, method: "delete" },
   { route: '/api/auth/logout', handler: _lazy_FG0uYX, lazy: true, middleware: false, method: "post" },
   { route: '/api/auth/send-otp', handler: _lazy_fIl2XX, lazy: true, middleware: false, method: undefined },
@@ -1477,6 +1483,7 @@ const handlers = [
   { route: '/api/categories/:id/subcategories', handler: _lazy_jKxKag, lazy: true, middleware: false, method: undefined },
   { route: '/api/categories', handler: _lazy_3yuKYh, lazy: true, middleware: false, method: undefined },
   { route: '/api/enquiries/bulk', handler: _lazy_pSoVZL, lazy: true, middleware: false, method: "post" },
+  { route: '/api/enquiries', handler: _lazy_MyT_yK, lazy: true, middleware: false, method: "post" },
   { route: '/api/favorites/:productId', handler: _lazy_Hb0lav, lazy: true, middleware: false, method: "delete" },
   { route: '/api/favorites/clear', handler: _lazy_1CuFt4, lazy: true, middleware: false, method: "delete" },
   { route: '/api/favorites', handler: _lazy_SMNOSh, lazy: true, middleware: false, method: "get" },
@@ -1821,6 +1828,76 @@ const styles = {};
 const styles$1 = /*#__PURE__*/Object.freeze({
   __proto__: null,
   default: styles
+});
+
+const verifyAuthToken = (event) => {
+  const config = useRuntimeConfig();
+  const token = getCookie(event, "auth_token");
+  if (!token) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized",
+      message: "Missing authentication token"
+    });
+  }
+  try {
+    const decoded = jwt.verify(token, config.jwtSecret);
+    return decoded;
+  } catch (error) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized",
+      message: "Invalid authentication token"
+    });
+  }
+};
+
+const index_delete = defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+  const { userId } = verifyAuthToken(event);
+  const adminAuthClient = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey).auth.admin;
+  const { error: deleteAuthUserError } = await adminAuthClient.deleteUser(userId);
+  if (deleteAuthUserError) {
+    console.warn("Could not delete user from auth.users:", deleteAuthUserError.message);
+  }
+  const { error: deleteProfileError } = await supabase.from("users").delete().eq("id", userId);
+  if (deleteProfileError) {
+    console.error("Could not delete user profile:", deleteProfileError);
+    throw createError({ statusCode: 500, message: "Could not delete user profile." });
+  }
+  return { success: true };
+});
+
+const index_delete$1 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_delete
+});
+
+const index_get$2 = defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+  const { userId } = verifyAuthToken(event);
+  const { data: user, error } = await supabase.from("users").select("id, first_name, last_name, email, mobile_number").eq("id", userId).single();
+  if (error || !user) {
+    console.error("Error fetching account:", error);
+    throw createError({
+      statusCode: 404,
+      statusMessage: "User not found"
+    });
+  }
+  return {
+    id: user.id,
+    firstName: user.first_name,
+    lastName: user.last_name,
+    email: user.email,
+    mobileNumber: user.mobile_number
+  };
+});
+
+const index_get$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_get$2
 });
 
 const serverSupabaseClient = (event) => {
@@ -2186,39 +2263,96 @@ const sendOtp$1 = /*#__PURE__*/Object.freeze({
   default: sendOtp
 });
 
-const session_get = defineEventHandler(async (event) => {
+async function validateSession(event) {
   try {
-    const client = await serverSupabaseClient(event);
-    const { data: { user }, error } = await client.auth.getUser();
-    if (error || !user) {
-      return { success: false, user: null, sessionToken: null };
+    const config = useRuntimeConfig();
+    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+    const sessionToken = getCookie(event, "session_token");
+    if (!sessionToken) {
+      return { success: false };
     }
-    const { data: profile, error: profileError } = await client.from("users").select("id, first_name, last_name, email, mobile_number, role, is_active").eq("id", user.id).single();
-    if (profileError || !profile) {
-      console.error("Get session profile error:", profileError);
-      return {
-        success: true,
-        user: { id: user.id, email: user.email, role: user.role },
-        sessionToken: "valid"
-      };
+    const { data: session, error: sessionError } = await supabase.from("user_sessions").select("user_id, expires_at, is_active").eq("session_token", sessionToken).eq("is_active", true).single();
+    if (sessionError || !session) {
+      console.log("\u274C Session validation failed:", {
+        sessionError: sessionError == null ? void 0 : sessionError.message,
+        hasSession: !!session
+      });
+      return { success: false };
+    }
+    const now = /* @__PURE__ */ new Date();
+    const expiresAt = new Date(session.expires_at);
+    if (expiresAt < now) {
+      console.log("\u274C Session expired:", {
+        now: now.toISOString(),
+        expiresAt: expiresAt.toISOString()
+      });
+      return { success: false };
+    }
+    const { data: user, error: userError } = await supabase.from("users").select("id, first_name, last_name, mobile_number, email, is_active, role").eq("id", session.user_id).single();
+    if (userError || !user) {
+      console.log("\u274C User lookup failed:", userError == null ? void 0 : userError.message);
+      return { success: false };
+    }
+    if (!user.is_active) {
+      console.log("\u274C User account is inactive");
+      return { success: false };
     }
     return {
       success: true,
+      userId: user.id,
+      user
+    };
+  } catch (error) {
+    console.error("\u274C Session validation error:", error);
+    return { success: false };
+  }
+}
+async function requireAuth(event) {
+  const validation = await validateSession(event);
+  if (!validation.success || !validation.userId || !validation.user) {
+    throw createError({
+      statusCode: 401,
+      statusMessage: "Unauthorized - Authentication required"
+    });
+  }
+  return {
+    userId: validation.userId,
+    user: validation.user
+  };
+}
+
+const session_get = defineEventHandler(async (event) => {
+  try {
+    const validation = await validateSession(event);
+    if (!validation.success || !validation.user) {
+      return {
+        success: false,
+        user: null,
+        sessionToken: null
+      };
+    }
+    const user = validation.user;
+    const sessionToken = getCookie(event, "session_token");
+    return {
+      success: true,
       user: {
-        id: profile.id,
-        firstName: profile.first_name,
-        lastName: profile.last_name,
-        email: profile.email,
-        mobileNumber: profile.mobile_number,
-        role: profile.role,
-        isActive: profile.is_active
+        id: user.id,
+        firstName: user.first_name,
+        lastName: user.last_name,
+        email: user.email,
+        mobileNumber: user.mobile_number,
+        role: user.role,
+        isActive: user.is_active
       },
-      sessionToken: "valid"
-      // Indicate an active session
+      sessionToken
     };
   } catch (error) {
     console.error("Get session error:", error);
-    return { success: false, user: null, sessionToken: null };
+    return {
+      success: false,
+      user: null,
+      sessionToken: null
+    };
   }
 });
 
@@ -2689,9 +2823,40 @@ const bulk_post$1 = /*#__PURE__*/Object.freeze({
   default: bulk_post
 });
 
+const index_post$2 = defineEventHandler(async (event) => {
+  const config = useRuntimeConfig();
+  const { productIds, message } = await readBody(event);
+  if (!productIds || !Array.isArray(productIds) || productIds.length === 0) {
+    throw createError({ statusCode: 400, message: "Product IDs are required." });
+  }
+  const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+  const { userId } = verifyAuthToken(event);
+  const { data: enquiry, error: enquiryError } = await supabase.from("enquiries").insert({ user_id: userId, message: message || "" }).select("id").single();
+  if (enquiryError) {
+    console.error("Error creating enquiry:", enquiryError);
+    throw createError({ statusCode: 500, message: "Could not create enquiry." });
+  }
+  const enquiryItems = productIds.map((productId) => ({
+    enquiry_id: enquiry.id,
+    product_id: productId
+  }));
+  const { error: itemsError } = await supabase.from("enquiry_items").insert(enquiryItems);
+  if (itemsError) {
+    console.error("Error adding enquiry items:", itemsError);
+    throw createError({ statusCode: 500, message: "Could not add items to enquiry." });
+  }
+  return { success: true, enquiryId: enquiry.id };
+});
+
+const index_post$3 = /*#__PURE__*/Object.freeze({
+  __proto__: null,
+  default: index_post$2
+});
+
 const _productId__delete = defineEventHandler(async (event) => {
   try {
-    const client = await serverSupabaseClient(event);
+    const config = useRuntimeConfig();
+    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
     const productId = getRouterParam(event, "productId");
     if (!productId) {
       throw createError({
@@ -2699,14 +2864,8 @@ const _productId__delete = defineEventHandler(async (event) => {
         statusMessage: "Product ID is required"
       });
     }
-    const { data: { user }, error: userError } = await client.auth.getUser();
-    if (userError || !user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized"
-      });
-    }
-    const { error } = await client.from("user_favorites").delete().eq("user_id", user.id).eq("product_id", productId);
+    const { userId } = await requireAuth(event);
+    const { error } = await supabase.from("user_favorites").delete().eq("user_id", userId).eq("product_id", productId);
     if (error) {
       console.error("Database error:", error);
       throw createError({
@@ -2737,15 +2896,10 @@ const _productId__delete$1 = /*#__PURE__*/Object.freeze({
 
 const clear_delete = defineEventHandler(async (event) => {
   try {
-    const client = await serverSupabaseClient(event);
-    const { data: { user }, error: userError } = await client.auth.getUser();
-    if (userError || !user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized"
-      });
-    }
-    const { error } = await client.from("user_favorites").delete().eq("user_id", user.id);
+    const config = useRuntimeConfig();
+    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+    const { userId } = await requireAuth(event);
+    const { error } = await supabase.from("user_favorites").delete().eq("user_id", userId);
     if (error) {
       console.error("Database error:", error);
       throw createError({
@@ -2755,7 +2909,7 @@ const clear_delete = defineEventHandler(async (event) => {
     }
     return {
       success: true,
-      message: "All favorites cleared"
+      message: "All favorites cleared successfully"
     };
   } catch (error) {
     console.error("Clear favorites error:", error);
@@ -2776,25 +2930,20 @@ const clear_delete$1 = /*#__PURE__*/Object.freeze({
 
 const index_get = defineEventHandler(async (event) => {
   try {
-    const client = await serverSupabaseClient(event);
-    const { data: { user }, error: userError } = await client.auth.getUser();
-    if (userError || !user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized"
-      });
-    }
-    const { data: favorites, error } = await client.from("user_favorites").select(`
-        id,
-        user_id,
-        product_id,
-        product_name,
-        product_image,
-        product_price,
-        product_category,
-        created_at,
-        updated_at
-      `).eq("user_id", user.id).order("created_at", { ascending: false });
+    const config = useRuntimeConfig();
+    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
+    const { userId } = await requireAuth(event);
+    const { data: favorites, error } = await supabase.from("user_favorites").select(`
+                id,
+                user_id,
+                product_id,
+                product_name,
+                product_image,
+                product_price,
+                product_category,
+                created_at,
+                updated_at
+            `).eq("user_id", userId).order("created_at", { ascending: false });
     if (error) {
       console.error("Database error:", error);
       throw createError({
@@ -2818,7 +2967,7 @@ const index_get = defineEventHandler(async (event) => {
       data: transformedFavorites
     };
   } catch (error) {
-    console.error("Fetch favorites error:", error);
+    console.error("Get favorites error:", error);
     if (error.statusCode) {
       throw error;
     }
@@ -2836,23 +2985,18 @@ const index_get$1 = /*#__PURE__*/Object.freeze({
 
 const index_post = defineEventHandler(async (event) => {
   try {
-    const client = await serverSupabaseClient(event);
+    const config = useRuntimeConfig();
+    const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey);
     const body = await readBody(event);
     const { productId, productName, productImage, productPrice, productCategory } = body;
-    const { data: { user }, error: userError } = await client.auth.getUser();
-    if (userError || !user) {
-      throw createError({
-        statusCode: 401,
-        statusMessage: "Unauthorized"
-      });
-    }
+    const { userId } = await requireAuth(event);
     if (!productId || !productName || !productImage || !productPrice || !productCategory) {
       throw createError({
         statusCode: 400,
         statusMessage: "Missing required fields"
       });
     }
-    const { data: existingFavorite, error: checkError } = await client.from("user_favorites").select("id").eq("user_id", user.id).eq("product_id", productId).single();
+    const { data: existingFavorite, error: checkError } = await supabase.from("user_favorites").select("id").eq("user_id", userId).eq("product_id", productId).single();
     if (checkError && checkError.code !== "PGRST116") {
       console.error("Check existing favorite error:", checkError);
       throw createError({
@@ -2867,8 +3011,8 @@ const index_post = defineEventHandler(async (event) => {
         message: "Product is already in favorites"
       };
     }
-    const { data: newFavorite, error: insertError } = await client.from("user_favorites").insert({
-      user_id: user.id,
+    const { data: newFavorite, error: insertError } = await supabase.from("user_favorites").insert({
+      user_id: userId,
       product_id: productId,
       product_name: productName,
       product_image: productImage,

@@ -82,6 +82,11 @@ export const useAuthStore = defineStore('auth', () => {
                 user.value = response.user
                 sessionToken.value = response.token || 'authenticated' // Use actual token from response
 
+                // Sync favorites with server after successful login
+                const { useFavoritesStore } = await import('~/stores/favorites')
+                const favoritesStore = useFavoritesStore()
+                await favoritesStore.syncWithServer()
+
                 return {
                     success: true,
                     message: response.message,
@@ -114,6 +119,12 @@ export const useAuthStore = defineStore('auth', () => {
             if (response.success) {
                 user.value = response.user
                 sessionToken.value = response.sessionToken
+
+                // Sync favorites with server after successful login
+                const { useFavoritesStore } = await import('~/stores/favorites')
+                const favoritesStore = useFavoritesStore()
+                await favoritesStore.syncWithServer()
+
                 return { success: true, message: 'Login successful' }
             } else {
                 return { success: false, message: response.message }
@@ -138,9 +149,12 @@ export const useAuthStore = defineStore('auth', () => {
         } catch (error) {
             console.error('Logout error:', error)
         } finally {
-            // Clear local state
+            // Clear local auth state only
             user.value = null
             sessionToken.value = null
+
+            // DON'T reset favorites store - let it persist for when user logs back in
+            // Favorites should remain in memory and be re-synced when user logs in again
         }
     }
 
@@ -180,12 +194,32 @@ export const useAuthStore = defineStore('auth', () => {
             if (response.success && response.user) {
                 user.value = response.user
                 sessionToken.value = response.sessionToken
+
+                // Sync favorites with server when session is restored
+                const { useFavoritesStore } = await import('~/stores/favorites')
+                const favoritesStore = useFavoritesStore()
+
+                // Use syncWithServer to ensure we get latest data but preserve any local favorites
+                await favoritesStore.syncWithServer()
+            } else {
+                // Only clear favorites if there's an auth failure (invalid session)
+                // This prevents losing favorites during temporary network issues
+                const { useFavoritesStore } = await import('~/stores/favorites')
+                const favoritesStore = useFavoritesStore()
+                favoritesStore.reset()
             }
         } catch (error) {
             console.error('Init auth error:', error)
             // Clear any invalid state
             user.value = null
             sessionToken.value = null
+
+            // Only reset favorites if it's a clear authentication failure
+            if (error.statusCode === 401 || error.statusCode === 403) {
+                const { useFavoritesStore } = await import('~/stores/favorites')
+                const favoritesStore = useFavoritesStore()
+                favoritesStore.reset()
+            }
         } finally {
             isLoading.value = false
         }

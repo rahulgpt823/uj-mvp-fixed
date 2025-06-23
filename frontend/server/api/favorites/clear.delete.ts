@@ -1,24 +1,19 @@
-import { serverSupabaseClient } from '~/server/utils/supabase'
+import { createClient } from '@supabase/supabase-js'
+import { requireAuth } from '~/server/utils/validateSession'
 
 export default defineEventHandler(async (event) => {
     try {
-        const client = await serverSupabaseClient(event)
+        const config = useRuntimeConfig()
+        const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey)
 
-        // Get user from session
-        const { data: { user }, error: userError } = await client.auth.getUser()
-
-        if (userError || !user) {
-            throw createError({
-                statusCode: 401,
-                statusMessage: 'Unauthorized'
-            })
-        }
+        // Validate authentication using standardized helper
+        const { userId } = await requireAuth(event)
 
         // Clear all favorites for the user
-        const { error } = await client
+        const { error } = await supabase
             .from('user_favorites')
             .delete()
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
 
         if (error) {
             console.error('Database error:', error)
@@ -30,7 +25,7 @@ export default defineEventHandler(async (event) => {
 
         return {
             success: true,
-            message: 'All favorites cleared'
+            message: 'All favorites cleared successfully'
         }
     } catch (error: any) {
         console.error('Clear favorites error:', error)

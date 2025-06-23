@@ -1,35 +1,29 @@
 import { createClient } from '@supabase/supabase-js'
-import { serverSupabaseClient } from '~/server/utils/supabase'
+import { requireAuth } from '~/server/utils/validateSession'
 
 export default defineEventHandler(async (event) => {
     try {
-        const client = await serverSupabaseClient(event)
+        const config = useRuntimeConfig()
+        const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey)
 
-        // Get user from session
-        const { data: { user }, error: userError } = await client.auth.getUser()
-
-        if (userError || !user) {
-            throw createError({
-                statusCode: 401,
-                statusMessage: 'Unauthorized'
-            })
-        }
+        // Validate authentication using standardized helper
+        const { userId } = await requireAuth(event)
 
         // Fetch favorites for the user
-        const { data: favorites, error } = await client
+        const { data: favorites, error } = await supabase
             .from('user_favorites')
             .select(`
-        id,
-        user_id,
-        product_id,
-        product_name,
-        product_image,
-        product_price,
-        product_category,
-        created_at,
-        updated_at
-      `)
-            .eq('user_id', user.id)
+                id,
+                user_id,
+                product_id,
+                product_name,
+                product_image,
+                product_price,
+                product_category,
+                created_at,
+                updated_at
+            `)
+            .eq('user_id', userId)
             .order('created_at', { ascending: false })
 
         if (error) {
@@ -58,7 +52,7 @@ export default defineEventHandler(async (event) => {
             data: transformedFavorites
         }
     } catch (error: any) {
-        console.error('Fetch favorites error:', error)
+        console.error('Get favorites error:', error)
 
         if (error.statusCode) {
             throw error

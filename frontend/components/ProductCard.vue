@@ -276,6 +276,7 @@ const handleFavoriteClick = async () => {
     navigateTo('/login?returnTo=' + encodeURIComponent(`/product/${props.product.id}`))
     return
   }
+  
   try {
     await favoritesStore.toggleFavorite({
       productId: props.product.id,
@@ -284,9 +285,14 @@ const handleFavoriteClick = async () => {
       productPrice: props.product.price,
       productCategory: props.product.subcategory?.category?.name || 'Jewelry'
     })
-    await favoritesStore.fetchFavorites()
-  } catch (e) {
-    alert(e.message || 'Failed to update favorite')
+  } catch (error: any) {
+    console.error('Failed to update favorite:', error)
+    // Show user-friendly error message
+    if (error.message?.includes('Unauthorized')) {
+      navigateTo('/login?returnTo=' + encodeURIComponent(`/product/${props.product.id}`))
+    } else {
+      alert(error.message || 'Failed to update favorite')
+    }
   }
 }
 

@@ -1,48 +1,40 @@
 import { defineEventHandler } from 'h3'
-import { serverSupabaseClient } from '~/server/utils/supabase'
+import { validateSession } from '~/server/utils/validateSession'
 
 export default defineEventHandler(async (event) => {
     try {
-        const client = await serverSupabaseClient(event)
+        const validation = await validateSession(event)
 
-        const { data: { user }, error } = await client.auth.getUser()
-
-        if (error || !user) {
-            return { success: false, user: null, sessionToken: null }
-        }
-
-        // Fetch user profile
-        const { data: profile, error: profileError } = await client
-            .from('users')
-            .select('id, first_name, last_name, email, mobile_number, role, is_active')
-            .eq('id', user.id)
-            .single()
-
-        if (profileError || !profile) {
-            console.error('Get session profile error:', profileError)
-            // Still return the user, but note the profile issue
+        if (!validation.success || !validation.user) {
             return {
-                success: true,
-                user: { id: user.id, email: user.email, role: user.role },
-                sessionToken: 'valid'
+                success: false,
+                user: null,
+                sessionToken: null
             }
         }
+
+        const user = validation.user
+        const sessionToken = getCookie(event, 'session_token')
 
         return {
             success: true,
             user: {
-                id: profile.id,
-                firstName: profile.first_name,
-                lastName: profile.last_name,
-                email: profile.email,
-                mobileNumber: profile.mobile_number,
-                role: profile.role,
-                isActive: profile.is_active
+                id: user.id,
+                firstName: user.first_name,
+                lastName: user.last_name,
+                email: user.email,
+                mobileNumber: user.mobile_number,
+                role: user.role,
+                isActive: user.is_active
             },
-            sessionToken: 'valid' // Indicate an active session
+            sessionToken: sessionToken
         }
     } catch (error: any) {
         console.error('Get session error:', error)
-        return { success: false, user: null, sessionToken: null }
+        return {
+            success: false,
+            user: null,
+            sessionToken: null
+        }
     }
 }) 

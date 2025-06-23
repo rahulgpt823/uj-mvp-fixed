@@ -89,6 +89,7 @@ declare global {
   const readRawBody: typeof import('../../node_modules/h3')['readRawBody']
   const readValidatedBody: typeof import('../../node_modules/h3')['readValidatedBody']
   const removeResponseHeader: typeof import('../../node_modules/h3')['removeResponseHeader']
+  const requireAuth: typeof import('../../server/utils/validateSession')['requireAuth']
   const runTask: typeof import('../../node_modules/nitropack/dist/runtime/internal/task')['runTask']
   const sanitizeStatusCode: typeof import('../../node_modules/h3')['sanitizeStatusCode']
   const sanitizeStatusMessage: typeof import('../../node_modules/h3')['sanitizeStatusMessage']
@@ -102,6 +103,7 @@ declare global {
   const sendStream: typeof import('../../node_modules/h3')['sendStream']
   const sendWebResponse: typeof import('../../node_modules/h3')['sendWebResponse']
   const serveStatic: typeof import('../../node_modules/h3')['serveStatic']
+  const serverSupabaseClient: typeof import('../../server/utils/supabase')['serverSupabaseClient']
   const setCookie: typeof import('../../node_modules/h3')['setCookie']
   const setHeader: typeof import('../../node_modules/h3')['setHeader']
   const setHeaders: typeof import('../../node_modules/h3')['setHeaders']
@@ -123,6 +125,8 @@ declare global {
   const useRuntimeConfig: typeof import('../../node_modules/nitropack/dist/runtime/internal/config')['useRuntimeConfig']
   const useSession: typeof import('../../node_modules/h3')['useSession']
   const useStorage: typeof import('../../node_modules/nitropack/dist/runtime/internal/storage')['useStorage']
+  const validateSession: typeof import('../../server/utils/validateSession')['validateSession']
+  const verifyAuthToken: typeof import('../../server/utils/auth')['verifyAuthToken']
   const writeEarlyHints: typeof import('../../node_modules/h3')['writeEarlyHints']
 }
 export { useNitroApp } from 'nitropack/runtime/internal/app';
@@ -139,3 +143,6 @@ export { defineNitroErrorHandler } from 'nitropack/runtime/internal/error/utils'
 export { appendCorsHeaders, appendCorsPreflightHeaders, appendHeader, appendHeaders, appendResponseHeader, appendResponseHeaders, assertMethod, callNodeListener, clearResponseHeaders, clearSession, createApp, createAppEventHandler, createError, createEvent, createEventStream, createRouter, defaultContentType, defineEventHandler, defineLazyEventHandler, defineNodeListener, defineNodeMiddleware, defineRequestMiddleware, defineResponseMiddleware, defineWebSocket, defineWebSocketHandler, deleteCookie, dynamicEventHandler, eventHandler, fetchWithEvent, fromNodeMiddleware, fromPlainHandler, fromWebHandler, getCookie, getHeader, getHeaders, getMethod, getProxyRequestHeaders, getQuery, getRequestFingerprint, getRequestHeader, getRequestHeaders, getRequestHost, getRequestIP, getRequestPath, getRequestProtocol, getRequestURL, getRequestWebStream, getResponseHeader, getResponseHeaders, getResponseStatus, getResponseStatusText, getRouterParam, getRouterParams, getSession, getValidatedQuery, getValidatedRouterParams, handleCacheHeaders, handleCors, isCorsOriginAllowed, isError, isEvent, isEventHandler, isMethod, isPreflightRequest, isStream, isWebResponse, lazyEventHandler, parseCookies, promisifyNodeListener, proxyRequest, readBody, readFormData, readMultipartFormData, readRawBody, readValidatedBody, removeResponseHeader, sanitizeStatusCode, sanitizeStatusMessage, sealSession, send, sendError, sendIterable, sendNoContent, sendProxy, sendRedirect, sendStream, sendWebResponse, serveStatic, setCookie, setHeader, setHeaders, setResponseHeader, setResponseHeaders, setResponseStatus, splitCookiesString, toEventHandler, toNodeListener, toPlainHandler, toWebHandler, toWebRequest, unsealSession, updateSession, useBase, useSession, writeEarlyHints } from 'h3';
 export { buildAssetsURL as __buildAssetsURL, publicAssetsURL as __publicAssetsURL } from 'C:/repos/uj-mvp/frontend/node_modules/nuxt/dist/core/runtime/nitro/utils/paths';
 export { defineAppConfig } from 'C:/repos/uj-mvp/frontend/node_modules/nuxt/dist/core/runtime/nitro/utils/config';
+export { verifyAuthToken } from 'C:/repos/uj-mvp/frontend/server/utils/auth';
+export { serverSupabaseClient } from 'C:/repos/uj-mvp/frontend/server/utils/supabase';
+export { validateSession, requireAuth } from 'C:/repos/uj-mvp/frontend/server/utils/validateSession';

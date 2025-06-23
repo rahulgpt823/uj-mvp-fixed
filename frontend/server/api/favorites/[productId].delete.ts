@@ -1,8 +1,10 @@
-import { serverSupabaseClient } from '~/server/utils/supabase'
+import { createClient } from '@supabase/supabase-js'
+import { requireAuth } from '~/server/utils/validateSession'
 
 export default defineEventHandler(async (event) => {
     try {
-        const client = await serverSupabaseClient(event)
+        const config = useRuntimeConfig()
+        const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey)
         const productId = getRouterParam(event, 'productId')
 
         if (!productId) {
@@ -12,21 +14,14 @@ export default defineEventHandler(async (event) => {
             })
         }
 
-        // Get user from session
-        const { data: { user }, error: userError } = await client.auth.getUser()
-
-        if (userError || !user) {
-            throw createError({
-                statusCode: 401,
-                statusMessage: 'Unauthorized'
-            })
-        }
+        // Validate authentication using standardized helper
+        const { userId } = await requireAuth(event)
 
         // Delete the favorite item
-        const { error } = await client
+        const { error } = await supabase
             .from('user_favorites')
             .delete()
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .eq('product_id', productId)
 
         if (error) {

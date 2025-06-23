@@ -1,21 +1,16 @@
-import { serverSupabaseClient } from '~/server/utils/supabase'
+import { createClient } from '@supabase/supabase-js'
+import { requireAuth } from '~/server/utils/validateSession'
 
 export default defineEventHandler(async (event) => {
     try {
-        const client = await serverSupabaseClient(event)
+        const config = useRuntimeConfig()
+        const supabase = createClient(config.public.supabaseUrl, config.supabaseServiceRoleKey)
         const body = await readBody(event)
 
         const { productId, productName, productImage, productPrice, productCategory } = body
 
-        // Get user from session
-        const { data: { user }, error: userError } = await client.auth.getUser()
-
-        if (userError || !user) {
-            throw createError({
-                statusCode: 401,
-                statusMessage: 'Unauthorized'
-            })
-        }
+        // Validate authentication using standardized helper
+        const { userId } = await requireAuth(event)
 
         // Validate required fields
         if (!productId || !productName || !productImage || !productPrice || !productCategory) {
@@ -26,10 +21,10 @@ export default defineEventHandler(async (event) => {
         }
 
         // Check if already in favorites
-        const { data: existingFavorite, error: checkError } = await client
+        const { data: existingFavorite, error: checkError } = await supabase
             .from('user_favorites')
             .select('id')
-            .eq('user_id', user.id)
+            .eq('user_id', userId)
             .eq('product_id', productId)
             .single()
 
@@ -50,10 +45,10 @@ export default defineEventHandler(async (event) => {
         }
 
         // Add to favorites
-        const { data: newFavorite, error: insertError } = await client
+        const { data: newFavorite, error: insertError } = await supabase
             .from('user_favorites')
             .insert({
-                user_id: user.id,
+                user_id: userId,
                 product_id: productId,
                 product_name: productName,
                 product_image: productImage,

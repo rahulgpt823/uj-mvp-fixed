@@ -25,6 +25,7 @@ interface _GlobalComponents {
     'ProductImageGallery': typeof import("../components/ProductImageGallery.vue")['default']
     'ProductImageUpload': typeof import("../components/ProductImageUpload.vue")['default']
     'ProductListItem': typeof import("../components/ProductListItem.vue")['default']
+    'ProductQuickViewModal': typeof import("../components/ProductQuickViewModal.vue")['default']
     'StoreLocator': typeof import("../components/StoreLocator.vue")['default']
     'UserProfileMenu': typeof import("../components/UserProfileMenu.vue")['default']
     'NuxtWelcome': typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -64,6 +65,7 @@ interface _GlobalComponents {
     'LazyProductImageGallery': LazyComponent<typeof import("../components/ProductImageGallery.vue")['default']>
     'LazyProductImageUpload': LazyComponent<typeof import("../components/ProductImageUpload.vue")['default']>
     'LazyProductListItem': LazyComponent<typeof import("../components/ProductListItem.vue")['default']>
+    'LazyProductQuickViewModal': LazyComponent<typeof import("../components/ProductQuickViewModal.vue")['default']>
     'LazyStoreLocator': LazyComponent<typeof import("../components/StoreLocator.vue")['default']>
     'LazyUserProfileMenu': LazyComponent<typeof import("../components/UserProfileMenu.vue")['default']>
     'LazyNuxtWelcome': LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>
@@ -109,6 +111,7 @@ export const ProductEnquiryModal: typeof import("../components/ProductEnquiryMod
 export const ProductImageGallery: typeof import("../components/ProductImageGallery.vue")['default']
 export const ProductImageUpload: typeof import("../components/ProductImageUpload.vue")['default']
 export const ProductListItem: typeof import("../components/ProductListItem.vue")['default']
+export const ProductQuickViewModal: typeof import("../components/ProductQuickViewModal.vue")['default']
 export const StoreLocator: typeof import("../components/StoreLocator.vue")['default']
 export const UserProfileMenu: typeof import("../components/UserProfileMenu.vue")['default']
 export const NuxtWelcome: typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']
@@ -148,6 +151,7 @@ export const LazyProductEnquiryModal: LazyComponent<typeof import("../components
 export const LazyProductImageGallery: LazyComponent<typeof import("../components/ProductImageGallery.vue")['default']>
 export const LazyProductImageUpload: LazyComponent<typeof import("../components/ProductImageUpload.vue")['default']>
 export const LazyProductListItem: LazyComponent<typeof import("../components/ProductListItem.vue")['default']>
+export const LazyProductQuickViewModal: LazyComponent<typeof import("../components/ProductQuickViewModal.vue")['default']>
 export const LazyStoreLocator: LazyComponent<typeof import("../components/StoreLocator.vue")['default']>
 export const LazyUserProfileMenu: LazyComponent<typeof import("../components/UserProfileMenu.vue")['default']>
 export const LazyNuxtWelcome: LazyComponent<typeof import("../node_modules/nuxt/dist/app/components/welcome.vue")['default']>

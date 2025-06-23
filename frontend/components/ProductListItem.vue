@@ -98,13 +98,13 @@
           <div class="flex items-center space-x-2">
             <!-- Wishlist Button -->
             <button
-              @click.stop="toggleWishlist"
+              @click.stop="handleFavoriteClick"
               :class="[
                 'w-10 h-10 rounded-full flex items-center justify-center transition-all duration-200 border',
-                isWishlisted ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-600 border-gray-300 hover:border-red-300 hover:text-red-500'
+                isFavorite ? 'bg-red-500 text-white border-red-500' : 'bg-white text-gray-600 border-gray-300 hover:border-red-300 hover:text-red-500'
               ]"
             >
-              <svg class="w-5 h-5" :fill="isWishlisted ? 'currentColor' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
+              <svg class="w-5 h-5" :fill="isFavorite ? 'currentColor' : 'none'" viewBox="0 0 24 24" stroke="currentColor">
                 <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4.318 6.318a4.5 4.5 0 000 6.364L12 20.364l7.682-7.682a4.5 4.5 0 00-6.364-6.364L12 7.636l-1.318-1.318a4.5 4.5 0 00-6.364 0z" />
               </svg>
             </button>
@@ -141,6 +141,8 @@
 <script setup lang="ts">
 import { ref, computed } from 'vue'
 import type { Product } from '~/types/product'
+import { useAuthStore } from '~/stores/auth'
+import { useFavoritesStore } from '~/stores/favorites'
 
 interface Props {
   product: Product
@@ -154,13 +156,15 @@ const emit = defineEmits<{
   quickView: []
 }>()
 
-// Reactive state
-const isWishlisted = ref(false)
+// Stores
+const authStore = useAuthStore()
+const favoritesStore = useFavoritesStore()
 
 // Computed properties
 const defaultImage = computed(() => {
   if (props.product.images && props.product.images.length > 0) {
-    return props.product.images.find(img => img.isDefault) || props.product.images[0]
+    const defaultImg = props.product.images.find(img => img.isDefault)
+    return defaultImg || props.product.images[0]
   }
   return null
 })
@@ -172,11 +176,32 @@ const isNew = computed(() => {
   return daysDifference <= 7 // Consider new if created within 7 days
 })
 
+const isFavorite = computed(() => favoritesStore.isFavorite(props.product.id))
+
 // Methods
-const toggleWishlist = () => {
-  isWishlisted.value = !isWishlisted.value
-  // TODO: Implement wishlist API call
-  console.log('Wishlist toggled for product:', props.product.id)
+const handleFavoriteClick = async () => {
+  if (!authStore.isLoggedIn) {
+    navigateTo('/login?returnTo=' + encodeURIComponent(`/product/${props.product.id}`))
+    return
+  }
+  
+  try {
+    await favoritesStore.toggleFavorite({
+      productId: props.product.id,
+      productName: props.product.name,
+      productImage: props.product.images?.[0]?.url || '',
+      productPrice: props.product.price,
+      productCategory: props.product.subcategory?.category?.name || 'Jewelry'
+    })
+  } catch (error: any) {
+    console.error('Failed to update favorite:', error)
+    // Show user-friendly error message
+    if (error.message?.includes('Unauthorized')) {
+      navigateTo('/login?returnTo=' + encodeURIComponent(`/product/${props.product.id}`))
+    } else {
+      alert(error.message || 'Failed to update favorite')
+    }
+  }
 }
 
 const addToCart = () => {
